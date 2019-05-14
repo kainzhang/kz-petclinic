@@ -7,7 +7,7 @@
 <title>Sign Up</title>
 </head>
 <body>
-    <form action="SignUpServlet" method="post">
+    <form action="UserServlet?method=signUp" method="post">
         <label for="">用户名</label>
         <input type="text" name="username" /><br>
         <font color="red">

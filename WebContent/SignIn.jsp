@@ -14,7 +14,7 @@
 </head>
 <body>
 	<div class="wrapper">
-		<form action="SignInServlet" method="post">
+		<form action="UserServlet?method=signIn" method="post">
 			<label>用户名:</label>
 				<input type="text" name="username" value="${param.username}"/><br><br>
 			<label>密码：</label>
