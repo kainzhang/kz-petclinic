@@ -13,7 +13,7 @@ public class VetDAO {
 		String stmt = 
 				" BEGIN;" +
                 " INSERT INTO vet" +
-                " (NAME)" +
+                " (ID, NAME)" +
                 " VALUES" +
                 " (null, '"+vet.getName()+"');" +
                 " COMMIT;";
@@ -55,17 +55,23 @@ public class VetDAO {
 		String stmt = " SELECT * FROM vet; ";
 		ResultSet rs;
 		List<Vet> list = new ArrayList<Vet>();
-		try {
-			rs = Connect.exeQuery(stmt);
-			while(rs.next()) {
-				Vet vet = new Vet();
-				vet.setId(rs.getInt("ID"));
-				vet.setName(rs.getString("NAME"));
-				list.add(vet);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		for(int i=0;i<10;i++) {
+			Vet vet = new Vet();
+			vet.setId(i);
+			vet.setName("NO"+i);
+			list.add(vet);
 		}
+//		try {
+//			rs = Connect.exeQuery(stmt);
+//			while(rs.next()) {
+//				Vet vet = new Vet();
+//				vet.setId(rs.getInt("ID"));
+//				vet.setName(rs.getString("NAME"));
+//				list.add(vet);
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
 		return list;	
 	}
 }
