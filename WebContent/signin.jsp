@@ -4,15 +4,19 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>标题</title>
+<title>SIGN IN</title>
 <style type="text/css">
-	*{margin: 0;padding: 0;}
 	form{padding:15px; width: 300px;height:300px;text-align: center;}
 	#submit{padding: 10px}
-	#submit input{width: 50px;height: 24px;}
+	#submit input{width: 50px;height: 25px;}
 </style>
 </head>
 <body>
+	<%@ include file="header.jsp"%>
+	<%
+    	if(user != null)
+    		response.sendRedirect("index.jsp");
+    %>
 	<div class="wrapper">
 		<form action="UserServlet?method=signIn" method="post">
 			<label>用户名:</label>

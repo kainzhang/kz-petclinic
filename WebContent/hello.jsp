@@ -7,6 +7,7 @@
 <title>标题</title>
 </head>
 <body>
+	<%@ include file="header.jsp"%>
 	Hello:<br>
 	<font color="green" size="22">
 		<%
@@ -14,6 +15,5 @@
 			out.print(request.getParameter("greeting")+"<br>");
 		%>
 	</font>
-	<a href="signin.jsp">登出</a>
 </body>
 </html>

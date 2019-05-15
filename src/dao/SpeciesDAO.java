@@ -46,7 +46,7 @@ public class SpeciesDAO {
 				" BEGIN;" +
                 " UPDATE specialty" +
                 " SET name = '"+species.getName()+"' " +
-                " WHERE id = '"+species.getId()+"'; " +
+                " WHERE id = "+species.getId()+"; " +
                 " COMMIT;";
 		try {
 		    Connect.exeUpdate(stmt);

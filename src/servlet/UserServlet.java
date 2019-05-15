@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import dao.UserDAO;
 import model.User;
@@ -26,6 +27,21 @@ public class UserServlet extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
+    
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		Method method = null;
+        String methodName = request.getParameter("method");
+        try {
+            method = getClass().getDeclaredMethod(methodName, HttpServletRequest.class, HttpServletResponse.class);
+            method.invoke(this, request, response);
+        } catch (Exception e) {
+            throw new RuntimeException("Wrong Method！");
+        }
+	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -43,17 +59,20 @@ public class UserServlet extends HttpServlet {
 	}
 	
 	private void signIn(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		request.setCharacterEncoding("utf-8");
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		System.out.println("# LoginAttempt， Username："+username+", Password："+password);
-		
+		HttpSession session = request.getSession(); 
+				
 		UserDAO dao = new UserDAO();
-		int id = dao.confirmUser(username,password);
-		if(id > -1) {
+		User user = dao.confirmUser(username,password);
+		if(user != null) {
 			response.sendRedirect("hello.jsp?username="+username+"&greeting=Welcome");
+			session.setAttribute("authenticated_user", user);
 		} else {
 			request.setAttribute("message", "账号或密码错误，请重新输入<br>");
-			request.getRequestDispatcher("SignIn.jsp").forward(request, response);
+			request.getRequestDispatcher("signin.jsp").forward(request, response);
 		}
 	}
 	
@@ -61,15 +80,16 @@ public class UserServlet extends HttpServlet {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		//String confpass = request.getParameter("confpass");
+		HttpSession session = request.getSession(); 
+		User user = new User();
 		boolean flag = true;
 		UserDAO dao = new UserDAO();
 		try {
 			if (dao.userExist(username)) {
 				flag = false;
 				request.setAttribute("message-username", "用户名已存在<br>");
-				request.getRequestDispatcher("SignUp.jsp").forward(request, response);
+				request.getRequestDispatcher("signup.jsp").forward(request, response);
 			} else {
-				User user = new User();
 				user.setUsername(username);
 				user.setPassword(password);
 				user.setPosition(0);
@@ -81,8 +101,15 @@ public class UserServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		if(flag) {
+			session.setAttribute("authenticated_user", user);
 			response.sendRedirect("hello.jsp?username="+username+"&greeting=Sign Up Success!");
 		}
 	}
 
+	private void logOut (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		HttpSession session = request.getSession();
+		session.removeAttribute("authenticated_user");
+		response.sendRedirect("index.jsp");
+	}
+	
 }

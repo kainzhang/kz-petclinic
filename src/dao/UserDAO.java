@@ -3,6 +3,8 @@ package dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.websocket.Session;
+
 import model.User;
 import util.Connect;
 
@@ -61,22 +63,31 @@ public class UserDAO {
 		return false;
 	}
 	
-	public int confirmUser(String username, String password) {
+	public User confirmUser(String username, String password) {
 		ResultSet rs;
 		try {
-			rs = Connect.exeQuery("SELECT * FROM USER WHERE username='"+username+"' AND password='"+password+"';");
+			rs = Connect.exeQuery("SELECT * FROM user WHERE username='"+username+"' AND password='"+password+"';");
 			if(rs.next()){
-				//User user = new User();
-				//user.setId(rs.getInt("ID"));
-		   		//user.setUsername(rs.getString("USERNAME"));
-		   		//user.setPassword(rs.getString("PASSWORD"));
-		   		//user.setPosition(rs.getInt("POSITION"));
-				return rs.getInt("ID");
+				User user = new User();
+				user.setId(rs.getInt("ID"));
+		   		user.setUsername(rs.getString("USERNAME"));
+		   		user.setPosition(rs.getInt("POSITION"));
+				return user;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return -1;
-		
+		return null;	
 	}
+	
+//	public int positionValue(Integer id) {
+//		ResultSet rs;
+//		try {
+//			rs = Connect.exeQuery("SELECT * FROM user WHERE id="+id+"; ");
+//			if(rs.next()) return rs.getInt("ID");
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//		return -1;
+//	}
 }

@@ -5,17 +5,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.Specialty;
+import model.Owner;
 import util.Connect;
 
-public class SpecialtyDAO {
-	public boolean insertSpecialty(Specialty specialty) {
+public class OwnerDAO {
+	public boolean insertOwner(Owner owner) {
 		String stmt = 
 				" BEGIN;" +
-                " INSERT INTO specialty" +
-                " (ID, NAME)" +
+                " INSERT INTO owner" +
                 " VALUES" +
-                " (null, '"+specialty.getName()+"');" +
+                " (null, '"+owner.getName()+
+                "','"+owner.getTel()+
+                "','"+owner.getAddr()+"');" +
                 " COMMIT;";
 		try {
 			Connect.exeUpdate(stmt);
@@ -26,10 +27,10 @@ public class SpecialtyDAO {
 		return true;
 	}
 	
-	public boolean deleteSpecialty(Integer id) {
+	public boolean deleteOwner(Integer id) {
 		String stmt = 
 				" BEGIN;" +
-                " DELETE FROM specialty" +
+                " DELETE FROM owner" +
                 " WHERE id="+id+";" +
                 " COMMIT;";
         try {
@@ -41,12 +42,14 @@ public class SpecialtyDAO {
         return true;
 	}
 	
-	public boolean updateSpecialty(Specialty specialty) {
+	public boolean updateOwner(Owner owner) {
     	String stmt =
 				" BEGIN;" +
-                " UPDATE specialty" +
-                " SET name = '"+specialty.getName()+"' " +
-                " WHERE id = "+specialty.getId()+"; " +
+                " UPDATE owner" +
+                " SET name = '"+owner.getName()+"' ," +
+                " tel = '"+owner.getTel()+"' ," +
+                " addr = '"+owner.getAddr()+"'," +
+                " WHERE id = "+owner.getId()+"; " +
                 " COMMIT;";
 		try {
 		    Connect.exeUpdate(stmt);
@@ -57,16 +60,18 @@ public class SpecialtyDAO {
 		return true;
 	}
 	
-	private List<Specialty> getList(String stmt) {
+	private List<Owner> getList(String stmt) {
 		ResultSet rs;
-		List<Specialty> list = new ArrayList<Specialty>();
+		List<Owner> list = new ArrayList<Owner>();
 		try {
 			rs = Connect.exeQuery(stmt);
 			while(rs.next()) {
-				Specialty specialty = new Specialty();
-				specialty.setId(rs.getInt("ID"));
-				specialty.setName(rs.getString("NAME"));
-				list.add(specialty);
+				Owner owner = new Owner();
+				owner.setId(rs.getInt("ID"));
+				owner.setName(rs.getString("NAME"));
+				owner.setAddr(rs.getString("addr"));
+				owner.setTel(rs.getString("tel"));
+				list.add(owner);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -75,13 +80,13 @@ public class SpecialtyDAO {
 	}
 	
 	
-	public List<Specialty> searchSpecialties(String keyword) {
-		String stmt = " SELECT * FROM specialty WHERE name LIKE '%"+keyword+"%'; ";
+	public List<Owner> searchOwners(String keyword) {
+		String stmt = " SELECT * FROM owner WHERE name LIKE '%"+keyword+"%'; ";
 		return getList(stmt);
 	}
 	
-	public List<Specialty> getSpecialties() {
-		String stmt = " SELECT * FROM specialty; ";
+	public List<Owner> getOwners() {
+		String stmt = " SELECT * FROM owner ; ";
 		return getList(stmt);
 	}
 }

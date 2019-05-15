@@ -46,7 +46,7 @@ public class VetDAO {
 				" BEGIN;" +
                 " UPDATE vet" +
                 " SET name = '"+vet.getName()+"' " +
-                " WHERE id = '"+vet.getId()+"'; " +
+                " WHERE id = "+vet.getId()+"; " +
                 " COMMIT;";
 		try {
 		    Connect.exeUpdate(stmt);

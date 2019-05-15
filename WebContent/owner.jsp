@@ -1,17 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
 <!DOCTYPE html>
 <html>
+
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>SPECIES</title>
+	<title>OWNER</title>
 	<style type="text/css">
 		div {
 			margin: 8px 8px;
 		}
-		#species-message {
+		#owner-message {
 			height: 60px;
 		}
 		input {
@@ -22,9 +22,10 @@
 		}
 	</style>
 </head>
+
 <body>
 	<%@ include file="header.jsp"%>
-	<div id=species-message>
+	<div id=owner-message>
 		<font color="green" size="18">
 		<%
 		if(request.getAttribute("message")!= null)
@@ -32,32 +33,36 @@
 		%>
 		</font>
 	</div>
-	<div id="species-search">
-		<form action="SpeciesServlet?method=searchSpecies" method="post">
+	<div id="owner-search">
+		<form action="OwnerServlet?method=searchOwner" method="post">
 			<label>关键字：</label>
-			<input type="text" name="keyword" value=${param.keyword}>
+			<input type="text" name="keyword" value=${param.keyword} >
 			<input type="submit" value="查询">
 		</form>
 	</div>
-	<div id="species-insert">
-		<form action="SpeciesServlet?method=insertSpecies" method="post">
-			<label>新物种：</label>
-			<input type="text" name="name">
+	<div id="owner-insert">
+		<form action="OwnerServlet?method=insertOwner" method="post">
+			<label>新顾客：</label>
+			名字<input type="text" name="name">
+			电话<input type="text" name="tel">
+			住址<input type="text" name="addr">
 			<input type="submit" value="添加">
 		</form>
 	</div>
-	<div id="species-show">
+	<div id="owner-show">
 		<table border="1">
 			<c:forEach items="${list}" var="item">
 				<tr>
 					<td>${item.id }</td>
 					<td>${item.name }</td>
-					<td><a href="SpeciesServlet?method=updateSpecies&id=${item.id}">修改</a></td>
-					<td><a href="SpeciesServlet?method=deleteSpecies&id=${item.id}">删除</a></td>
+					<td>${item.tel }</td>
+					<td>${item.addr }</td>
+					<td><a href="OwnerServlet?method=updateOwner&id=${item.id}">修改</a></td>
+					<td><a href="OwnerServlet?method=deleteOwner&id=${item.id}">删除</a></td>
 				</tr>
 			</c:forEach>
 		</table>
 	</div>
 
 </body>
-</html></html>
+</html>

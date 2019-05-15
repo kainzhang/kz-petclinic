@@ -6,9 +6,8 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>VETS</title>
+	<title>VET</title>
 	<style type="text/css">
-		* {margin: 0; padding: 0;}
 		div {
 			margin: 8px 8px;
 		}
@@ -24,6 +23,7 @@
 	</style>
 </head>
 <body>
+	<%@ include file="header.jsp"%>
 	<div id=vet-message>
 		<font color="green" size="18">
 		<%

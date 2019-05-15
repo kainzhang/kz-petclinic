@@ -53,7 +53,7 @@ public class PetDAO {
                 " pic = '"+pet.getPic()+"'," +
                 " speciesid = "+pet.getSpeciesId()+"," +
                 " ownerid = "+pet.getOwnerId()+" " +
-                " WHERE id = '"+pet.getId()+"'; " +
+                " WHERE id = "+pet.getId()+"; " +
                 " COMMIT;";
 		try {
 		    Connect.exeUpdate(stmt);
@@ -89,12 +89,17 @@ public class PetDAO {
 	
 	
 	public List<Pet> searchPets(String keyword) {
-		String stmt = " SELECT * FROM pet WHERE name LIKE '%"+keyword+"%'; ";
+		String stmt = "select p.ID as id,p.NAME as name,p.BDAY as bday,o.ID as ownerid,o.name as owner,s.id as speciesid,s.name as species,p.PIC as pic" + 
+				" from (pet as p inner join owner as o on p.OWNERID=o.Id)" + 
+				" inner join species as s on p.SPECIESID=s.id" + 
+				" where p.name like '%"+keyword+"%';";
 		return getList(stmt);
 	}
 	
 	public List<Pet> getPets() {
-		String stmt = " SELECT * FROM pet; ";
+		String stmt = " select p.ID as id,p.NAME as name,p.BDAY as bday,o.ID as ownerid,o.name as owner,s.id as speciesid,s.name as species,p.PIC as pic" + 
+				" from (pet as p inner join owner as o on p.OWNERID=o.Id)" + 
+				" inner join species as s on p.SPECIESID=s.id ;";
 		return getList(stmt);
 	}
 }
