@@ -66,9 +66,11 @@ public class Sqlite
     		  	   " NAME          TEXT   NOT NULL);";
       
       
-      String sql9= " CREATE TABLE CATEGORY "+
-    		  	   " (CID   INTEGER PRIMARY KEY AUTOINCREMENT, "+
-    		  	   " CNAME       TEXT          NOT NULL      );";
+      String sql9= " CREATE TABLE vet_spec "+
+    		  	   " (vetid   INTEGER       NOT NULL," +
+    		  	   " specid   INTEGER       NOT NULL," +
+    		  	   " FOREIGN KEY(vetid)  REFERENCES VET(id)," +
+    		  	   " FOREIGN KEY(specid) REFERENCES SPECIALTY(id));";
 //      
       String sql8="INSERT INTO USER VALUES(null,'kun','pass','2');";
       
@@ -80,10 +82,32 @@ public class Sqlite
       
       String sql21="insert into SPECIALTY values(null,'小型动物');";
       
+      String sql22 = " CREATE TABLE species" +
+		  		 " (ID INTEGER PRIMARY KEY AUTOINCREMENT," +
+		         " NAME       TEXT     NOT NULL );";
+      
+      String sql23 = "CREATE TABLE owner"+
+              " (ID INTEGER PRIMARY KEY AUTOINCREMENT," +
+              " NAME         TEXT            NOT NULL," +
+              " TEL          TEXT            NOT NULL," +
+              " ADDR         TEXT           NOT NULL);";
+
+      
+      String sql24 = "CREATE TABLE pet"+
+              " (ID INTEGER PRIMARY KEY AUTOINCREMENT," +
+              " NAME         TEXT            NOT NULL," +
+              " BDAY         TEXT            NOT NULL," +
+              " SPECIESID    INTEGER         NOT NULL," +
+              " OWNERID      INTEGER         NOT NULL," +
+              " PIC          TEXT            NOT NULL,"
+              + "FOREIGN KEY(SPECIESID) REFERENCES SPECIES(ID),"
+              + "FOREIGN KEY(OWNERID) REFERENCES OWNER(ID) );";
+
+      
       String name ="name";
-      stmt.executeUpdate(sql21);
+      stmt.executeUpdate(sql24);
 //      for(int i=0;i<10;i++) {
-//    	  String sql81="INSERT INTO vet VALUES(null,'"+name+"'+"+i+" );";
+//    	  String sql81="INSERT INTO vet VALUES(null,"+i+" );";
 //    	  stmt.executeUpdate(sql81);
 //      }
       

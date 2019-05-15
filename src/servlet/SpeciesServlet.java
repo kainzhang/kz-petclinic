@@ -10,20 +10,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dao.VetDAO;
-import model.Vet;
+import dao.SpeciesDAO;
+import model.Species;
 
 /**
  * @Servlet implementation class VetServlet
  */
-@WebServlet("/VetServlet")
-public class VetServlet extends HttpServlet {
+@WebServlet("/SpeciesServlet")
+public class SpeciesServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public VetServlet() {
+    public SpeciesServlet() {
         super();
     }
 
@@ -57,55 +57,55 @@ public class VetServlet extends HttpServlet {
         }
 	}
 	
-	private void insertVet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void insertSpecies (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String name = request.getParameter("name");
-		Vet vet = new Vet();
-		vet.setName(name);
-		VetDAO dao = new VetDAO();
+		Species spec = new Species();
+		spec.setName(name);
+		SpeciesDAO dao = new SpeciesDAO();
 		String message;
-		if(dao.insertVet(vet)) message = "添加成功！";
-		else message = "添加失败";
+		if(dao.insertSpecies(spec)) message = "添加成功！";
+		else message = "添加失败！";
 		request.setAttribute("message", message);
-		request.getRequestDispatcher("VetServlet?method=showVets&message="+message).forward(request, response);
+		request.getRequestDispatcher("SpeciesServlet?method=showSpecies&message="+message).forward(request, response);
 	}
 	
-	private void deleteVet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void deleteSpecies (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Integer id = Integer.parseInt(request.getParameter("id"));
-		VetDAO dao = new VetDAO();
+		SpeciesDAO dao = new SpeciesDAO();
 		String message;
-		if(dao.deleteVet(id)) message = "删除成功！";
+		if(dao.deleteSpecies(id)) message = "删除成功！";
 		else message = "删除失败！";
 		request.setCharacterEncoding("UTF-8");
 		request.setAttribute("message", message);
-		request.getRequestDispatcher("VetServlet?method=showVets&message="+message).forward(request, response);
+		request.getRequestDispatcher("SpeciesServlet?method=showSpecies&message="+message).forward(request, response);
 	}
 	
-	private void updateVet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void updateSpecies (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Integer id = Integer.parseInt(request.getParameter("id"));
 		String name = request.getParameter("name");
-		Vet vet = new Vet();
-		vet.setId(id);
-		vet.setName(name);
-		VetDAO dao = new VetDAO();
+		Species spec = new Species();
+		spec.setId(id);
+		spec.setName(name);
+		SpeciesDAO dao = new SpeciesDAO();
 		String message;
-		if(dao.updateVet(vet)) message = "修改成功！";
+		if(dao.updateSpecies(spec)) message = "修改成功！";
 		else message = "修改失败！";
 		request.setAttribute("message", message);
-		request.getRequestDispatcher("VetServlet?method=showVets&message="+message).forward(request, response);
+		request.getRequestDispatcher("SpeciesServlet?method=showSpecies&message="+message).forward(request, response);
 	}
 	
-	private void showVets (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		VetDAO dao = new VetDAO();
-		List<Vet> list = dao.getVets();
+	private void showSpecies (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		SpeciesDAO dao = new SpeciesDAO();
+		List<Species> list = dao.getSpecies();
 		request.setAttribute("list", list);
-		request.getRequestDispatcher("vet.jsp").forward(request, response);
+		request.getRequestDispatcher("species.jsp").forward(request, response);
 	}
 	
-	private void searchVets (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		VetDAO dao = new VetDAO();
+	private void searchSpecies (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		SpeciesDAO dao = new SpeciesDAO();
 		String keyword = request.getParameter("keyword");
-		List<Vet> list = dao.searchVets(keyword);
+		List<Species> list = dao.searchSpecies(keyword);
 		request.setAttribute("list", list);
-		request.getRequestDispatcher("vet.jsp?keyword=").forward(request, response);
+		request.getRequestDispatcher("species.jsp?keyword="+keyword).forward(request, response);
 	}
 }

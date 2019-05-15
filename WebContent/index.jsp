@@ -7,6 +7,8 @@
 	<title>Insert title here</title>
 </head>
 <body>
-	<a href="VetServlet?method=showVets">查看兽医</a>
+	<a href="VetServlet?method=showVets">查看兽医</a> <br>
+	<a href="SpeciesServlet?method=showSpecies">查看物种</a> <br>
+	<a href="SpecialtyServlet?method=showSpecialties">查看专业</a> <br>
 </body>
 </html>

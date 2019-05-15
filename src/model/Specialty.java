@@ -9,6 +9,7 @@ public class Specialty implements Serializable {
 	private static final long serialVersionUID = -2160751975800454214L;
 	private Integer id;
 	private String name;
+	
 	public Integer getId() {
 		return id;
 	}

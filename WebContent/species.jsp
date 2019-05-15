@@ -12,7 +12,7 @@
 		div {
 			margin: 8px 8px;
 		}
-		#vet-message {
+		#species-message {
 			height: 60px;
 		}
 		input {
@@ -24,7 +24,7 @@
 	</style>
 </head>
 <body>
-	<div id=vet-message>
+	<div id=species-message>
 		<font color="green" size="18">
 		<%
 		if(request.getAttribute("message")!= null)
@@ -32,32 +32,32 @@
 		%>
 		</font>
 	</div>
-	<div id="vet-search">
-		<form action="VetServlet?method=searchVets" method="post">
+	<div id="species-search">
+		<form action="SpeciesServlet?method=searchSpecies" method="post">
 			<label>关键字：</label>
 			<input type="text" name="keyword" value=${param.keyword}>
 			<input type="submit" value="查询">
 		</form>
 	</div>
-	<div id="vet-insert">
-		<form action="VetServlet?method=insertVet" method="post">
-			<label>新兽医：</label>
+	<div id="species-insert">
+		<form action="SpeciesServlet?method=insertSpecies" method="post">
+			<label>新物种：</label>
 			<input type="text" name="name">
 			<input type="submit" value="添加">
 		</form>
 	</div>
-	<div id="vet-show">
+	<div id="species-show">
 		<table border="1">
 			<c:forEach items="${list}" var="item">
 				<tr>
 					<td>${item.id }</td>
 					<td>${item.name }</td>
-					<td><a href="VetServlet?method=updateVet&id=${item.id}">修改</a></td>
-					<td><a href="VetServlet?method=deleteVet&id=${item.id}">删除</a></td>
+					<td><a href="SpeciesServlet?method=updateSpecies&id=${item.id}">修改</a></td>
+					<td><a href="SpeciesServlet?method=deleteSpecies&id=${item.id}">删除</a></td>
 				</tr>
 			</c:forEach>
 		</table>
 	</div>
 
 </body>
-</html>
+</html></html>

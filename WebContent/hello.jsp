@@ -14,6 +14,6 @@
 			out.print(request.getParameter("greeting")+"<br>");
 		%>
 	</font>
-	<a href="SignIn.jsp">登出</a>
+	<a href="signin.jsp">登出</a>
 </body>
 </html>

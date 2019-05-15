@@ -5,17 +5,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.Specialty;
+import model.Species;
 import util.Connect;
 
-public class SpecialtyDAO {
-	public boolean insertSpecialty(Specialty specialty) {
+public class SpeciesDAO {
+	public boolean insertSpecies(Species species) {
 		String stmt = 
 				" BEGIN;" +
-                " INSERT INTO specialty" +
+                " INSERT INTO species" +
                 " (ID, NAME)" +
                 " VALUES" +
-                " (null, '"+specialty.getName()+"');" +
+                " (null, '"+species.getName()+"');" +
                 " COMMIT;";
 		try {
 			Connect.exeUpdate(stmt);
@@ -26,10 +26,10 @@ public class SpecialtyDAO {
 		return true;
 	}
 	
-	public boolean deleteSpecialty(Integer id) {
+	public boolean deleteSpecies(Integer id) {
 		String stmt = 
 				" BEGIN;" +
-                " DELETE FROM specialty" +
+                " DELETE FROM species" +
                 " WHERE id="+id+";" +
                 " COMMIT;";
         try {
@@ -41,12 +41,12 @@ public class SpecialtyDAO {
         return true;
 	}
 	
-	public boolean updateSpecialty(Specialty specialty) {
+	public boolean updateSpecies(Species species) {
     	String stmt =
 				" BEGIN;" +
                 " UPDATE specialty" +
-                " SET name = '"+specialty.getName()+"' " +
-                " WHERE id = '"+specialty.getId()+"'; " +
+                " SET name = '"+species.getName()+"' " +
+                " WHERE id = '"+species.getId()+"'; " +
                 " COMMIT;";
 		try {
 		    Connect.exeUpdate(stmt);
@@ -57,16 +57,16 @@ public class SpecialtyDAO {
 		return true;
 	}
 	
-	private List<Specialty> getList(String stmt) {
+	private List<Species> getList(String stmt) {
 		ResultSet rs;
-		List<Specialty> list = new ArrayList<Specialty>();
+		List<Species> list = new ArrayList<Species>();
 		try {
 			rs = Connect.exeQuery(stmt);
 			while(rs.next()) {
-				Specialty specialty = new Specialty();
-				specialty.setId(rs.getInt("ID"));
-				specialty.setName(rs.getString("NAME"));
-				list.add(specialty);
+				Species species = new Species();
+				species.setId(rs.getInt("ID"));
+				species.setName(rs.getString("NAME"));
+				list.add(species);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -74,14 +74,13 @@ public class SpecialtyDAO {
 		return list;	
 	}
 	
-	
-	public List<Specialty> searchSpecialties(String keyword) {
-		String stmt = " SELECT * FROM specialty WHERE name LIKE '%"+keyword+"%'; ";
+	public List<Species> searchSpecies(String keyword) {
+		String stmt = " SELECT * FROM Species WHERE name LIKE '%"+keyword+"%'; ";
 		return getList(stmt);
 	}
 	
-	public List<Specialty> getSpecialties() {
-		String stmt = " SELECT * FROM specialty; ";
+	public List<Species> getSpecies() {
+		String stmt = " SELECT * FROM Species; ";
 		return getList(stmt);
 	}
 }
