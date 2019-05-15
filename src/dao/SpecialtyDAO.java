@@ -5,17 +5,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.Vet;
+import model.Specialty;
 import util.Connect;
 
-public class VetDAO {
-	public boolean insertVet(Vet vet) {
+public class SpecialtyDAO {
+	public boolean insertSpecialtyt(Specialty specialty) {
 		String stmt = 
 				" BEGIN;" +
-                " INSERT INTO vet" +
+                " INSERT INTO specialty" +
                 " (ID, NAME)" +
                 " VALUES" +
-                " (null, '"+vet.getName()+"');" +
+                " (null, '"+specialty.getName()+"');" +
                 " COMMIT;";
 		try {
 			Connect.exeUpdate(stmt);
@@ -26,10 +26,10 @@ public class VetDAO {
 		return true;
 	}
 	
-	public boolean deleteVet(Integer id) {
+	public boolean deleteSpecialty(Integer id) {
 		String stmt = 
 				" BEGIN;" +
-                " DELETE FROM vet" +
+                " DELETE FROM specialty" +
                 " WHERE id="+id+";" +
                 " COMMIT;";
         try {
@@ -41,12 +41,12 @@ public class VetDAO {
         return true;
 	}
 	
-	public boolean updateVet(Vet vet) {
+	public boolean updateSpecialty(Specialty specialty) {
     	String stmt =
 				" BEGIN;" +
-                " UPDATE vet" +
-                " SET name = '"+vet.getName()+"' " +
-                " WHERE id = '"+vet.getId()+"'; " +
+                " UPDATE specialty" +
+                " SET name = '"+specialty.getName()+"' " +
+                " WHERE id = '"+specialty.getId()+"'; " +
                 " COMMIT;";
 		try {
 		    Connect.exeUpdate(stmt);
@@ -57,16 +57,16 @@ public class VetDAO {
 		return true;
 	}
 	
-	private List<Vet> getList(String stmt) {
+	private List<Specialty> getList(String stmt) {
 		ResultSet rs;
-		List<Vet> list = new ArrayList<Vet>();
+		List<Specialty> list = new ArrayList<Specialty>();
 		try {
 			rs = Connect.exeQuery(stmt);
 			while(rs.next()) {
-				Vet vet = new Vet();
-				vet.setId(rs.getInt("ID"));
-				vet.setName(rs.getString("NAME"));
-				list.add(vet);
+				Specialty specialty = new Specialty();
+				specialty.setId(rs.getInt("ID"));
+				specialty.setName(rs.getString("NAME"));
+				list.add(specialty);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -75,13 +75,13 @@ public class VetDAO {
 	}
 	
 	
-	public List<Vet> searchVets(String keyword) {
-		String stmt = " SELECT * FROM vet WHERE name LIKE '%"+keyword+"%'; ";
+	public List<Specialty> searchSpecialties(String keyword) {
+		String stmt = " SELECT * FROM specialty WHERE name LIKE '%"+keyword+"%'; ";
 		return getList(stmt);
 	}
 	
-	public List<Vet> getVets() {
-		String stmt = " SELECT * FROM vet; ";
+	public List<Specialty> getSpecialties() {
+		String stmt = " SELECT * FROM specialty; ";
 		return getList(stmt);
 	}
 }

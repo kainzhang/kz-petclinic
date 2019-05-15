@@ -25,7 +25,6 @@ public class VetServlet extends HttpServlet {
      */
     public VetServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -38,7 +37,7 @@ public class VetServlet extends HttpServlet {
             method = getClass().getDeclaredMethod(methodName, HttpServletRequest.class, HttpServletResponse.class);
             method.invoke(this, request, response);
         } catch (Exception e) {
-            throw new RuntimeException("调用方法出错！");
+            throw new RuntimeException("Wrong Method！");
         }
 	}
 	
@@ -52,8 +51,45 @@ public class VetServlet extends HttpServlet {
             method = getClass().getDeclaredMethod(methodName, HttpServletRequest.class, HttpServletResponse.class);
             method.invoke(this, request, response);
         } catch (Exception e) {
-            throw new RuntimeException("调用方法出错！");
+            throw new RuntimeException("Wrong Method！");
         }
+	}
+	
+	private void insertVet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String name = request.getParameter("name");
+		Vet vet = new Vet();
+		vet.setName(name);
+		VetDAO dao = new VetDAO();
+		String message;
+		if(dao.insertVet(vet)) message = "添加成功！";
+		else message = "添加失败";
+		request.setAttribute("message", message);
+		request.getRequestDispatcher("VetServlet?method=showVets&message="+message).forward(request, response);
+	}
+	
+	private void deleteVet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Integer id = Integer.parseInt(request.getParameter("id"));
+		VetDAO dao = new VetDAO();
+		String message;
+		if(dao.deleteVet(id)) message = "删除成功！";
+		else message = "删除失败！";
+		request.setCharacterEncoding("UTF-8");
+		request.setAttribute("message", message);
+		request.getRequestDispatcher("VetServlet?method=showVets&message="+message).forward(request, response);
+	}
+	
+	private void updateVet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Integer id = Integer.parseInt(request.getParameter("id"));
+		String name = request.getParameter("name");
+		Vet vet = new Vet();
+		vet.setId(id);
+		vet.setName(name);
+		VetDAO dao = new VetDAO();
+		String message;
+		if(dao.updateVet(vet)) message = "修改成功！";
+		else message = "修改失败！";
+		request.setAttribute("message", message);
+		request.getRequestDispatcher("VetServlet?method=showVets&message="+message).forward(request, response);
 	}
 	
 	private void showVets (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -61,5 +97,13 @@ public class VetServlet extends HttpServlet {
 		List<Vet> list = dao.getVets();
 		request.setAttribute("list", list);
 		request.getRequestDispatcher("vet.jsp").forward(request, response);
+	}
+	
+	private void searchVets (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		VetDAO dao = new VetDAO();
+		String keyword = request.getParameter("keyword");
+		List<Vet> list = dao.searchVets(keyword);
+		request.setAttribute("list", list);
+		request.getRequestDispatcher("vet.jsp?keyword="+keyword).forward(request, response);
 	}
 }

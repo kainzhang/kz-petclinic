@@ -20,7 +20,7 @@
 			<label>密码：</label>
 				<input type="password" name="password"/><br>
 				
-				<font color="red">
+			<font color="red">
 				<%
 					if(request.getAttribute("message")!= null){
 						out.print(request.getAttribute("message"));

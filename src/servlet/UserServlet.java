@@ -33,6 +33,7 @@ public class UserServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Method method = null;
         String methodName = request.getParameter("method");
+        System.out.println(methodName);
         try {
             method = getClass().getDeclaredMethod(methodName, HttpServletRequest.class, HttpServletResponse.class);
             method.invoke(this, request, response);
