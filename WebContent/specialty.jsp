@@ -38,7 +38,7 @@
 				<tr>
 					<td>${item.id }</td>
 					<td>${item.name }</td>
-					<td><label for="link1-trigger" class="modal-link" title="${item.id}" onclick="setId(this)">修改</label></td>
+					<td><label for="link1-trigger" class="modal-link" type="Specialty" title="${item.id}" onclick="setInfo(this)">修改</label></td>
 					<td><a href="SpecialtyServlet?method=deleteSpecialty&id=${item.id}">删除</a></td>
 				</tr>
 			</c:forEach>

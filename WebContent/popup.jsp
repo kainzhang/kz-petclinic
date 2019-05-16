@@ -10,9 +10,9 @@
                 <input type="text" id="aim">
                 <p><!--SPACER-->&nbsp;<!--SPACER--></p>
                 <p><!--SPACER-->&nbsp;<!--SPACER--></p>
-                <a href="" class="Vet" onclick="sendUpdate(this)" >确定</a>
+                <a href="" id="popup-btn" onclick="sendUpdate(this)" >确定</a>
                 <p><label for="link1-trigger" class="modal-link">CLOSE</label></p>
             </div>
-        </div>
+        </div>"WebContent/js/popupwindow.js"
     </div>
 </div>

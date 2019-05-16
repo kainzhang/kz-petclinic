@@ -7,19 +7,6 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>VET</title>
-	<script type="text/javascript">
-	function ale(obj){
-		var id = obj.getAttribute("title");
-		var type = obj.getAttribute("class");
-		//var name = prompt("请输入新名称");
-		//if(name!=null && name!=""){
-		var path = type+"Servlet?method=delete"+type+"&id="+id;
-		//document.form.aim.value = path;
-		document.getElementById("aim").value = path;
-		document.getElementById("vetForm").submit();
-		//alert(path);
-	}
-	</script>
 </head>
 <body>
 	<%@ include file="header.jsp"%>
@@ -53,7 +40,7 @@
 				<tr>
 					<td>${item.id }</td>
 					<td>${item.name }</td>
-					<td><label for="link1-trigger" class="modal-link" title="${item.id}" onclick="setId(this)">修改</label></td>
+					<td><label for="link1-trigger" class="modal-link" type="Vet" title="${item.id}" onclick="setInfo(this)">修改</label></td>
 					<td><a href="VetServlet?method=deleteVet&id=${item.id}">删除</a></td>
 				</tr>
 			</c:forEach>

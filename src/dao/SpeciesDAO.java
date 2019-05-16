@@ -44,7 +44,7 @@ public class SpeciesDAO {
 	public boolean updateSpecies(Species species) {
     	String stmt =
 				" BEGIN;" +
-                " UPDATE specialty" +
+                " UPDATE Species" +
                 " SET name = '"+species.getName()+"' " +
                 " WHERE id = "+species.getId()+"; " +
                 " COMMIT;";
