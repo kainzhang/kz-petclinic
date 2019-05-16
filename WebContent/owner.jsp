@@ -7,20 +7,6 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>OWNER</title>
-	<style type="text/css">
-		div {
-			margin: 8px 8px;
-		}
-		#owner-message {
-			height: 60px;
-		}
-		input {
-			margin: 3px 3px;
-		}
-		td {
-			width: 100px;
-		}
-	</style>
 </head>
 
 <body>
@@ -63,6 +49,7 @@
 			</c:forEach>
 		</table>
 	</div>
-
+	
+	<%@ include file="footer.jsp" %>
 </body>
 </html>

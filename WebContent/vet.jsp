@@ -7,24 +7,25 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>VET</title>
-	<style type="text/css">
-		div {
-			margin: 8px 8px;
-		}
-		#vet-message {
-			height: 60px;
-		}
-		input {
-			margin: 3px 3px;
-		}
-		td {
-			width: 100px;
-		}
-	</style>
+	<script type="text/javascript">
+	function ale(obj){
+		var id = obj.getAttribute("title");
+		var type = obj.getAttribute("class");
+		//var name = prompt("请输入新名称");
+		//if(name!=null && name!=""){
+		var path = type+"Servlet?method=delete"+type+"&id="+id;
+		//document.form.aim.value = path;
+		document.getElementById("aim").value = path;
+		document.getElementById("vetForm").submit();
+		//alert(path);
+	}
+	</script>
 </head>
 <body>
 	<%@ include file="header.jsp"%>
-	<div id=vet-message>
+	<div class="content">
+
+	<div id="vet-message" >
 		<font color="green" size="18">
 		<%
 		if(request.getAttribute("message")!= null)
@@ -52,12 +53,19 @@
 				<tr>
 					<td>${item.id }</td>
 					<td>${item.name }</td>
-					<td><a href="VetServlet?method=updateVet&id=${item.id}">修改</a></td>
+					<td><label for="link1-trigger" class="modal-link" title="${item.id}" onclick="setId(this)">修改</label></td>
 					<td><a href="VetServlet?method=deleteVet&id=${item.id}">删除</a></td>
 				</tr>
 			</c:forEach>
 		</table>
 	</div>
-
+	
+	</div>
+	
+	<%@ include file="popup.jsp" %>
+	<%@ include file="footer.jsp" %>
+	<script type="text/javascript">
+	
+	</script>
 </body>
 </html>

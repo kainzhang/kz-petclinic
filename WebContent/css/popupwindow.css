@@ -1,0 +1,56 @@
+
+  .front {
+    background: white;
+    width: 400px;
+    padding: 25px;
+    margin: 30px auto;
+  }
+  .modal-link, a {
+    color: #429aff;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .modal-link:hover, a:hover,
+  .modal-link:focus, a:focus,
+  .modal-link:active, a:active {
+    text-decoration: underline;
+  }
+  .modal > .check {
+    display: none;
+  }
+  .modal > .container {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: -100vh;
+    overflow: auto;
+    transition: background 0.5s ease 0.5s, top 0s ease 0.5s;
+  }
+  .modal > .check:checked ~ .container {
+    background: rgba(0, 0, 0, 0.25);
+    top: 0;
+    transition: background 0.5s ease;
+  }
+  .modal > .container > .content {
+    background: white;
+    min-height: 300px;
+    margin: 30px;
+    overflow: auto;
+    position: relative;
+    top: -1000px;
+    box-shadow: 0 0 20px 2px #444;
+    transition: top 0.3s ease;
+  }
+  .modal > .check:checked ~ .container > .content {
+    top: 0;
+    transition: top 0.3s ease 0.5s;
+  }
+  .modal-body {
+    padding: 25px;
+  }
+  @media only screen and (min-width: 480px) {
+    .modal > .container > .content {
+      width: 350px;
+      margin: 30px auto;
+    }
+  }

@@ -7,20 +7,6 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>SPECIALTY</title>
-	<style type="text/css">
-		div {
-			margin: 8px 8px;
-		}
-		#specialty-message {
-			height: 60px;
-		}
-		input {
-			margin: 3px 3px;
-		}
-		td {
-			width: 100px;
-		}
-	</style>
 </head>
 <body>
 	<%@ include file="header.jsp"%>
@@ -52,12 +38,14 @@
 				<tr>
 					<td>${item.id }</td>
 					<td>${item.name }</td>
-					<td><a href="SpecialtyServlet?method=updateSpecialty&id=${item.id}">修改</a></td>
+					<td><label for="link1-trigger" class="modal-link" title="${item.id}" onclick="setId(this)">修改</label></td>
 					<td><a href="SpecialtyServlet?method=deleteSpecialty&id=${item.id}">删除</a></td>
 				</tr>
 			</c:forEach>
 		</table>
 	</div>
-
+	
+	<%@ include file="popup.jsp" %>
+	<%@ include file="footer.jsp" %>
 </body>
 </html></html>

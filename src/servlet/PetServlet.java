@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import dao.OwnerDAO;
 import dao.PetDAO;
@@ -131,5 +132,11 @@ public class PetServlet extends HttpServlet {
 		request.setAttribute("list", list);
 		request.getRequestDispatcher("pet.jsp?keyword="+keyword).forward(request, response);
 	}
-
+	private void toUpdatePet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		PetDAO dao = new PetDAO();
+		Integer id = Integer.parseInt(request.getParameter("id"));
+		HttpSession session = request.getSession();
+		session.setAttribute("aimPet", dao.getPet(id));
+		response.sendRedirect("updatepet.jsp");
+	}
 }

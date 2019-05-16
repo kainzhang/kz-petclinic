@@ -5,11 +5,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>SIGN IN</title>
-<style type="text/css">
-	form{padding:15px; width: 300px;height:300px;text-align: center;}
-	#submit{padding: 10px}
-	#submit input{width: 50px;height: 25px;}
-</style>
 </head>
 <body>
 	<%@ include file="header.jsp"%>
@@ -17,26 +12,28 @@
     	if(user != null)
     		response.sendRedirect("index.jsp");
     %>
-	<div class="wrapper">
-		<form action="UserServlet?method=signIn" method="post">
-			<label>用户名:</label>
-				<input type="text" name="username" value="${param.username}"/><br><br>
-			<label>密码：</label>
-				<input type="password" name="password"/><br>
-				
-			<font color="red">
+	<div id="signin-content">
+        <div id="signin-content-pane">
+            <h1>Please sign in.</h1>
+            <form action="UserServlet?method=signIn" method="post">
+                <input type="text" placeholder="LOKKA ID" name="username" value="${param.username}"><br>
+                <span id="username-hint"></span><br>
+                <input type="password" placeholder="PASSWORD" name="password"><br>
+                <span id="password-hint"></span><br>
+                
+                <font color="red">
 				<%
 					if(request.getAttribute("message")!= null){
 						out.print(request.getAttribute("message"));
 					}
 				%>
-			</font>
-			
-			<div id="submit">
-				<input type="submit" value="登录"/>
-			</div>
-		</form>
-	
-	</div>
+				</font>
+                
+                <input type="submit" value="Sign in">
+                <a href="signup.jsp">No account? Create one now!</a>
+            </form>
+        </div>
+    </div>
+    <%@ include file="footer.jsp"%>
 </body>
 </html>

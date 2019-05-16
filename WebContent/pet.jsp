@@ -7,20 +7,6 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>PET</title>
-	<style type="text/css">
-		div {
-			margin: 8px 8px;
-		}
-		#pet-message {
-			height: 60px;
-		}
-		input {
-			margin: 3px 3px;
-		}
-		td {
-			width: 100px;
-		}
-	</style>
 </head>
 
 <body>
@@ -69,12 +55,13 @@
 					<td>${item.species }</td>
 					<td>${item.owner }</td>
 					<td>${item.pic }</td>
-					<td><a href="PetServlet?method=updatePet&id=${item.id}">修改</a></td>
+					<td><a href="PetServlet?method=toUpdatePet&id=${item.id}">修改</a></td>
 					<td><a href="PetServlet?method=deletePet&id=${item.id}">删除</a></td>
 				</tr>
 			</c:forEach>
 		</table>
 	</div>
-
+	
+	<%@ include file="footer.jsp" %>
 </body>
 </html>

@@ -102,4 +102,30 @@ public class PetDAO {
 				" inner join species as s on p.SPECIESID=s.id ;";
 		return getList(stmt);
 	}
+	
+	public Pet getPet(Integer id) {
+		String stmt =
+				"select p.ID as id,p.NAME as name,p.BDAY as bday,o.ID as ownerid,o.name as owner,s.id as speciesid,s.name as species,p.PIC as pic" + 
+				" from (pet as p inner join owner as o on p.OWNERID=o.Id)" + 
+				" inner join species as s on p.SPECIESID=s.id" + 
+				" WHERE p.ID="+id+" ;";
+		Pet pet = new Pet();
+		try {
+			ResultSet rs = Connect.exeQuery(stmt);
+			if(rs.next()) {
+				pet.setId(rs.getInt("ID"));
+				pet.setName(rs.getString("NAME"));
+				pet.setBday(rs.getString("BDAY"));
+				pet.setPic(rs.getString("PIC"));
+				pet.setOwnerId(rs.getInt("OWNERID"));
+				pet.setOwner(rs.getString("OWNER"));
+				pet.setSpeciesId(rs.getInt("SPECIESID"));
+				pet.setSpecies(rs.getString("SPECIES"));
+			}
+			return pet;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

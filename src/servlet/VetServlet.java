@@ -106,6 +106,6 @@ public class VetServlet extends HttpServlet {
 		String keyword = request.getParameter("keyword");
 		List<Vet> list = dao.searchVets(keyword);
 		request.setAttribute("list", list);
-		request.getRequestDispatcher("vet.jsp?keyword=").forward(request, response);
+		request.getRequestDispatcher("vet.jsp?keyword="+keyword).forward(request, response);
 	}
 }

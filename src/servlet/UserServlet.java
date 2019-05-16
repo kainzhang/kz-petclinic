@@ -68,8 +68,8 @@ public class UserServlet extends HttpServlet {
 		UserDAO dao = new UserDAO();
 		User user = dao.confirmUser(username,password);
 		if(user != null) {
-			response.sendRedirect("hello.jsp?username="+username+"&greeting=Welcome");
 			session.setAttribute("authenticated_user", user);
+			response.sendRedirect("index.jsp");
 		} else {
 			request.setAttribute("message", "ÕËºÅ»òÃÜÂë´íÎó£¬ÇëÖØĞÂÊäÈë<br>");
 			request.getRequestDispatcher("signin.jsp").forward(request, response);
@@ -102,7 +102,7 @@ public class UserServlet extends HttpServlet {
 		}
 		if(flag) {
 			session.setAttribute("authenticated_user", user);
-			response.sendRedirect("hello.jsp?username="+username+"&greeting=Sign Up Success!");
+			response.sendRedirect("index.jsp");
 		}
 	}
 
