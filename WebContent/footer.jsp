@@ -42,6 +42,6 @@
     </div>
     <div id="lower-content">
         <span id="lower-content-logo">LOKKA</span>
-        <span id="lower-content-sign">© 2018, LOKKA, Inc. All trademarks and registered trademarks appearing on lokka.com are the property of their respective owners.</span>
+        <span id="lower-content-sign">© 2019, LOKKA, Inc. All trademarks and registered trademarks appearing on lokka.com are the property of their respective owners.</span>
     </div>
 </footer>

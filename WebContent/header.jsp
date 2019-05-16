@@ -10,7 +10,7 @@
 	<script>
 		less = {
 		  env: "development",
-		  async: false,
+		  async: true,
 		  fileAsync: true,
 		  poll: 1000,
 		  functions: {},
@@ -28,7 +28,7 @@
     <ul id="nav">
     	<li class="nav-item"><a class="fc-item" href="#">WELCOME TO LOKKA<span class="arrow arrow-down"></span></a>&nbsp;
             <ul class="nav-item-child"> 
-                <li><a href="VetServlet?method=showVets">Check Veterinarains</a></li> 
+                <li><a href="VetServlet?method=showVets">Check Veterinarians</a></li> 
                 <li><a href="SpeciesServlet?method=showSpecies">Check Species</a></li> 
                 <li><a href="SpecialtyServlet?method=showSpecialties">Check Specialties</a></li> 
                 <li><a href="OwnerServlet?method=showOwners">Check Customers</a></li>
@@ -50,7 +50,7 @@
 	    	} else {
 	    %>
 		    <a href="signin.jsp">Login</a>
-		    <a href="signup.jsp">Rigister</a>
+		    <a href="signup.jsp">Register</a>
 	    <%
 	    	}
 	    %>

@@ -35,7 +35,8 @@
 		</form>
 	</div>
 	<div id="vet-show">
-		<table border="1">
+		<table class="content-table">
+			<tr><td>ID</td><td>NAME</td><td colspan="2">Operation</td></tr>
 			<c:forEach items="${list}" var="item">
 				<tr>
 					<td>${item.id }</td>

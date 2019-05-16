@@ -47,7 +47,7 @@
                 <tr><td colspan="4"><input id="password" type="password" name="password" placeholder="Password" maxlength="16"></td></tr>
                 <tr><td colspan="4"><input id="confpass" type="password" name="confpass" placeholder="Confirm password" maxlength="16"></td></tr>
                 <tr><td></td></tr>
-                <tr><td colspan="4"><input type="submit" value="Continue" ></td></tr>
+                <tr><td colspan="4"><input type="submit" value="Sign up" ></td></tr>
             </table>
             </form>
         </div>
