@@ -87,7 +87,7 @@ public class UserServlet extends HttpServlet {
 		try {
 			if (dao.userExist(username)) {
 				flag = false;
-				request.setAttribute("message-username", "用户名已存在<br>");
+				request.setAttribute("message", "用户名已存在<br>");
 				request.getRequestDispatcher("signup.jsp").forward(request, response);
 			} else {
 				user.setUsername(username);

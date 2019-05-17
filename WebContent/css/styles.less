@@ -3,6 +3,8 @@
 @primary-shadow-color: rgba(0,100,230,0.6);
 @secondary-btn-color: rgb(0,69,255);
 @secondary-font-color: rgb(80,80,80);
+@tertiary-btn-color: rgb(38,128,0);
+@tertiary-shadow-color: rgba(68,162,0,0.6);
 @dark-border-color: #0d2157;
 @content-width: 1200px;
 @content-font-size: 20px;
@@ -27,8 +29,8 @@ input[type="text"],input[type="password"],select {
     padding: 5px 15px;
 }
 select {
-    height: 43px;
-    width: 432px;
+    height: 30px;
+    width: 100px;
     appearance: none;
     -moz-appearance:none;
     -webkit-appearance:none;
@@ -46,7 +48,7 @@ input[type="text"]:focus,input[type="password"]:focus,select:focus {
     -webkit-box-shadow: @primary-shadow-color 0px 0px 5px 1px;
     border-color: @secondary-btn-color;
 }
-input[type="submit"] {
+input[type="submit"],input[type="button"] {
     height: 50px;
     width: 432px;
     background-color: @secondary-btn-color;
@@ -58,7 +60,12 @@ input[type="submit"] {
         background-color: @primary-shadow-color;
     }
 }
-
+input[type="button"] {
+	background-color: @primary-font-color*3;
+	&:hover {
+		background-color: @primary-logo-color;
+	}
+}
 .display-none {
     display: none;
 }
@@ -423,7 +430,7 @@ footer {
 			height: 230px;
 			width: 200px;
 			float: left;
-			margin: 30px 0 0 30px; 
+			margin: 28px 0 0 28px; 
 			border-radius: 20px;
 			text-decoration: none;
 			&:hover {
@@ -443,5 +450,54 @@ footer {
 		}
 	}
 	
-	
+}
+
+#detail-page {
+	width: @content-width;
+	height: 500px;
+	margin: 30px auto;
+	padding-top: 70px;
+	&-pane-1 {
+		width: 500px;
+		float: left;
+	}
+	&-pane-2 {
+		width: 600px;
+		float: left;
+		table {
+			text-align: right;
+			td {
+				height: 70px;
+				span {
+					margin-right: 15px;
+				}
+			}
+		}
+		input[type='text'] {
+			width: 400px;
+		}
+		input[type='submit'],input[type='button'] {
+			width: 150px;
+		}
+		//input[type='submit'] {
+		//	background-color: @tertiary-btn-color;
+		//    &:hover{
+		//        background-color: @tertiary-shadow-color;
+		//    }
+		//}
+		select {
+			width: 432px;
+			height: 42px;
+			background-position-x: 405px;
+		}
+	    .select-m {
+		    width: 216px;
+		    background-position-x: 182px;
+	    }
+	    .select-s {
+	        width: 100px;
+	        background-position-x: 72px;
+	    }
+		
+	}
 }

@@ -27,12 +27,7 @@
 	                        out.print(request.getAttribute("message-password"));
 	                %>
 	        </font>
-	        <font color="red">
-	                <%
-	                    if(request.getAttribute("message-confpass")!= null)
-	                        out.print(request.getAttribute("message-confpass"));
-	                %>
-       		</font>
+	        
 		 --%>
     
       <div id="signup-content">
@@ -46,7 +41,17 @@
                 <tr><td colspan="4" id="username-hint">This will be your new LOKKA ID</td></tr>
                 <tr><td colspan="4"><input id="password" type="password" name="password" placeholder="Password" maxlength="16"></td></tr>
                 <tr><td colspan="4"><input id="confpass" type="password" name="confpass" placeholder="Confirm password" maxlength="16"></td></tr>
-                <tr><td></td></tr>
+                <tr><td>
+                <font color="red">
+	                <%
+	                    if(request.getAttribute("message")!= null) {
+	                        out.print(request.getAttribute("message"));
+	                	} else {
+	                %>
+	                	<p>&nbsp;</p>
+	                <% } %>
+       			</font>
+       			</td></tr>
                 <tr><td colspan="4"><input type="submit" value="Sign up" ></td></tr>
             </table>
             </form>

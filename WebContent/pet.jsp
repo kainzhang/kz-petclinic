@@ -74,12 +74,11 @@
 	
 	<div class="content-picshow">
 		<c:forEach items="${list}" var="item">
-			<a href=" " class="content-picshow-item">
+			<a href="PetServlet?method=showPet&id=${item.id}" class="content-picshow-item">
 				<img src="img/monroe.jpg" alt="">
 				<div class="content-picshow-item-info">
 					<span>${item.name}&nbsp;|&nbsp;</span>
-					<span>${item.species}&nbsp;|&nbsp;</span>
-					<span>${item.owner}</span>
+					<span>${item.species}&nbsp;
 				</div>
 			</a>	
 		</c:forEach>
@@ -87,6 +86,7 @@
 	</div>
 	
 	
+	<%--
 	<div class="modal">
 		<input type="checkbox" id="link1-trigger" class="check">
 		<div id="link1" class="container">
@@ -120,6 +120,9 @@
 	        </div>
 	    </div>
 	</div>
+	
+	 --%>
+	
 	
 	
 	<%@ include file="footer.jsp" %>

@@ -64,7 +64,6 @@ public class PetServlet extends HttpServlet {
 	}
 	
 	private void insertPet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("≤Â»Î≥ËŒÔ");
 		String name = request.getParameter("name");
 		String bday = request.getParameter("bday");
 		String speciesid = request.getParameter("speciesid");
@@ -110,21 +109,25 @@ public class PetServlet extends HttpServlet {
 		request.getRequestDispatcher("PetServlet?method=showPets&message="+message).forward(request, response);
 	}
 	private void showPets (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("cheshang ");
 		PetDAO dao = new PetDAO();
 		List<Pet> list = dao.getPets();
-		System.out.println(list.size());
 		request.setAttribute("list", list);
-		
-		SpeciesDAO spdao = new SpeciesDAO();
-		List<Species> splist = spdao.getSpecies();
-		request.setAttribute("splist", splist);
-		
-		OwnerDAO Odao = new OwnerDAO();
-		List<Owner> Olist = Odao.getOwners();
-		request.setAttribute("ownerlist", Olist);
 		request.getRequestDispatcher("pet.jsp").forward(request, response);
 	}
+	
+	private void showPet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		PetDAO dao = new PetDAO();
+		Integer id = Integer.parseInt(request.getParameter("id"));
+		request.setAttribute("aimPet", dao.getPet(id));
+		
+		SpeciesDAO sdao = new SpeciesDAO();
+		request.setAttribute("splist", sdao.getSpecies());
+		
+		OwnerDAO odao = new OwnerDAO();
+		request.setAttribute("ownerlist", odao.getOwners());
+		request.getRequestDispatcher("petdetail.jsp").forward(request, response);
+	}
+	
 	private void searchPet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PetDAO dao = new PetDAO();
 		String keyword = request.getParameter("keyword");

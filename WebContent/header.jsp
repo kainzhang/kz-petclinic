@@ -21,7 +21,7 @@
 	</script>
 	<script type="text/javascript" src="js/less.min.js" ></script>
 	<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
-	<script type="text/javascript" src="js/popupwindow.js"></script>
+	<script type="text/javascript" src="js/lokka.js"></script>
 </head>
 <header>
     <a id="logo" href="index.jsp">LOKKA</a>
