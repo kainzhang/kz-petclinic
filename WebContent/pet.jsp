@@ -19,13 +19,19 @@
 		%>
 		</font>
 	</div>
-	<div id="pet-search">
-		<form action="PetServlet?method=searchPet" method="post">
-			<label>关键字：</label>
-			<input type="text" name="keyword" value=${param.keyword} >
-			<input type="submit" value="查询">
-		</form>
+	
+	<div class="content">
+	
+	<div class="content-search">
+		<div class="content-search-pane">
+			<form action="PetServlet?method=searchPet" method="post">
+				<input type="text" name="keyword" value=${param.keyword} >
+				<input type="submit" value="SEARCH">
+			</form>
+		</div class="content-search-pane">
 	</div>
+	
+	<%--
 	<div id="pet-insert">
 		<form action="PetServlet?method=insertPet" method="post">
 			<label>新宠物：</label>
@@ -45,7 +51,9 @@
 			<input type="submit" value="添加">
 		</form>
 	</div>
-	<div id="pet-show">
+	
+	
+		<div id="pet-show">
 		<table border="1">
 			<c:forEach items="${list}" var="item">
 				<tr>
@@ -60,7 +68,24 @@
 				</tr>
 			</c:forEach>
 		</table>
+		</div>
+	 --%>
+	
+	
+	<div class="content-picshow">
+		<c:forEach items="${list}" var="item">
+			<a href=" " class="content-picshow-item">
+				<img src="img/monroe.jpg" alt="">
+				<div class="content-picshow-item-info">
+					<span>${item.name}&nbsp;|&nbsp;</span>
+					<span>${item.species}&nbsp;|&nbsp;</span>
+					<span>${item.owner}</span>
+				</div>
+			</a>	
+		</c:forEach>
 	</div>
+	</div>
+	
 	
 	<div class="modal">
 		<input type="checkbox" id="link1-trigger" class="check">

@@ -49,7 +49,6 @@ input[type="text"]:focus,input[type="password"]:focus,select:focus {
 input[type="submit"] {
     height: 50px;
     width: 432px;
-    margin: 20px 0 0 3px;
     background-color: @secondary-btn-color;
     color: #fff;
     font-size: @content-font-size;
@@ -151,6 +150,8 @@ header {
 }
 
 footer {
+	width:100%;
+	float: left;
     height: 400px;
     background: linear-gradient(to bottom right, #f4f4f4, #fafafa);
     #upper-content {
@@ -307,6 +308,10 @@ footer {
             width: 400px;
         }
     }
+	input[type="text"],input[type="password"],input[type="submit"] {
+	    margin: 7px 3px;
+	    padding: 5px 15px;
+	}
 }
 
 #index-content {
@@ -316,24 +321,29 @@ footer {
 	a {
         display: block;
 		position: relative;
+		text-decoration: none;
+		transform: scale(1);
+	    box-shadow: 0px 0px 10px 2px rgba(25, 25, 25, 0.4);
+	    transition: box-shadow 0.5s, transform 0.5s;
+		&:hover {
+			transition: box-shadow 0.5s, transform 0.5s;
+			transform: scale(1.1);
+			box-shadow: 0px 0px 15px 5px rgba(25, 25, 25, 0.4);
+		}
 	}
-	a {
-    transform: scale(1);
-    box-shadow: 0px 0px 10px 2px rgba(25, 25, 25, 0.4);
-    transition: box-shadow 0.5s, transform 0.5s;
+	&-img-title {
+		position: absolute;
+		bottom: 10%;
+		left: 17%;
+		margin: 0 auto;
+		color: #fff;
+        font-size: 200%;
+        font-family:'New Century Schoolbook',  Times, Georgia, 'New York', serif;
+        font-weight: bold;
+		p {
+			text-shadow:5px 2px 6px #000;
+		}
 	}
-	a:hover {
-    transform: scale(1.1);
-    box-shadow: 0px 0px 15px 5px rgba(25, 25, 25, 0.4);
-    transition: box-shadow 0.5s, transform 0.5s;
-	}
-    &-img-1, &-img-2, &-img-3, &-img-4 {
-        width: 22.5%;
-        height: 450px;
-        float: left;
-        margin-left: 2%;
-        border-radius: 20px;
-    }
     &-img-1 {
         background-color: #00ff00;
         background:  ~"url('img/pet-1.jpg')";
@@ -350,10 +360,18 @@ footer {
         background-color: #ff00f0;
         background:  ~"url('img/pet-3.jpg')";
     }
+    &-img-1, &-img-2, &-img-3, &-img-4 {
+        width: 22.5%;
+        height: 450px;
+        float: left;
+        margin-left: 2%;
+        border-radius: 20px;
+		background-size: cover;
+    }
 }
 
 .content {
-	width: @content-width/1.2;
+	width: 1400px;
 	margin: 0 auto;
 	&-table {
 		padding: 3px 7px;
@@ -370,5 +388,60 @@ footer {
 			}
 		}
 	}
+	
+	&-search {
+		width: 100%;
+		height: 80px;
+		&-pane {
+			margin-top: 20px;
+			margin-right: 50px;
+			float: right;
+			input[type="text"] {
+				width: 300px;
+				height: 25px;
+			}
+			input[type="submit"] {
+				line-height:40px;
+				width: 80px;
+				height: 40px;
+				font-size: 15px;
+			}
+		}
+		
+	}
+	
+	&-picshow {
+		width: 100%;
+		float: left;
+		height: 840px;
+		margin: 0 auto;
+		&-item {
+			display: block;
+			border: 1px solid #aaa;
+			transform: scale(1);
+		    transition: transform 0.5s;
+			height: 230px;
+			width: 200px;
+			float: left;
+			margin: 30px 0 0 30px; 
+			border-radius: 20px;
+			text-decoration: none;
+			&:hover {
+				transform: scale(1.1);
+				text-decoration: none;
+			}
+			img {
+				width: 200px;
+                height: 200px;
+                border-top-left-radius: 20px;
+                border-top-right-radius: 20px;
+			}
+			&-info {
+				text-align: center;
+				color: @primary-font-color;
+			}
+		}
+	}
+	
 	
 }
