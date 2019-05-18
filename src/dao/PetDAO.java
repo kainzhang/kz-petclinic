@@ -14,11 +14,11 @@ public class PetDAO {
 				" BEGIN;" +
                 " INSERT INTO pet" +
                 " VALUES" +
-                " (null, '"+pet.getName()+
-                "','"+pet.getBday()+
-                "',"+pet.getSpeciesId()+
-                ","+pet.getOwnerId()+
-                ",'"+pet.getPic()+"');" +
+                " (null, '"+pet.getName()+"', " +
+                " '"+pet.getBday()+"'," +
+                " "+pet.getSpeciesId()+", " +
+                " "+pet.getOwnerId()+", " +
+                " '"+pet.getPic()+"' );" +
                 " COMMIT;";
 		try {
 			Connect.exeUpdate(stmt);

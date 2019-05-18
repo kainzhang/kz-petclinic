@@ -45,12 +45,12 @@
 	    	if(user != null) {
 	    %>
 	    	<span>Hello, <% out.print(user.getUsername()); %></span>
-	    	<a href="UserServlet?method=logOut">Logout</a>
+	    	<a href="UserServlet?method=logOut"><span>Logout</span></a>
 	    <% 
 	    	} else {
 	    %>
-		    <a href="signin.jsp">Login</a>
-		    <a href="signup.jsp">Register</a>
+		    <a href="signin.jsp"><span>Login</span></a>
+		    <a href="signup.jsp"><span>Register</span></a>
 	    <%
 	    	}
 	    %>
