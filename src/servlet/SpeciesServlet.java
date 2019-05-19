@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dao.PetDAO;
 import dao.SpeciesDAO;
 import model.Species;
 
@@ -63,19 +64,21 @@ public class SpeciesServlet extends HttpServlet {
 		spec.setName(name);
 		SpeciesDAO dao = new SpeciesDAO();
 		String message;
-		if(dao.insertSpecies(spec)) message = "Ìí¼Ó³É¹¦£¡";
-		else message = "Ìí¼ÓÊ§°Ü£¡";
+		if(dao.insertSpecies(spec)) message = "Insert successful!";
+		else message = "Insert failed";
 		request.setAttribute("message", message);
 		request.getRequestDispatcher("SpeciesServlet?method=showSpecies&message="+message).forward(request, response);
 	}
 	
 	private void deleteSpecies (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Integer id = Integer.parseInt(request.getParameter("id"));
-		SpeciesDAO dao = new SpeciesDAO();
+		SpeciesDAO sdao = new SpeciesDAO();
+		PetDAO pdao = new PetDAO();
 		String message;
-		if(dao.deleteSpecies(id)) message = "É¾³ý³É¹¦£¡";
-		else message = "É¾³ýÊ§°Ü£¡";
-		request.setCharacterEncoding("UTF-8");
+		if(sdao.deleteSpecies(id)) {
+			if(pdao.wipePets(id));
+				message = "Delete successful!";
+		} else  message = "Delete failed";
 		request.setAttribute("message", message);
 		request.getRequestDispatcher("SpeciesServlet?method=showSpecies&message="+message).forward(request, response);
 	}
@@ -88,8 +91,8 @@ public class SpeciesServlet extends HttpServlet {
 		spec.setName(name);
 		SpeciesDAO dao = new SpeciesDAO();
 		String message;
-		if(dao.updateSpecies(spec)) message = "ÐÞ¸Ä³É¹¦£¡";
-		else message = "ÐÞ¸ÄÊ§°Ü£¡";
+		if(dao.updateSpecies(spec)) message = "Update successful!";
+		else message = "Update failed";
 		request.setAttribute("message", message);
 		request.getRequestDispatcher("SpeciesServlet?method=showSpecies&message="+message).forward(request, response);
 	}

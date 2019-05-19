@@ -282,10 +282,9 @@ footer {
         width: 100%;
         height: 300px;
         margin: 0 auto;
-        background: ~"url('img/banner-2.png')";
-        background-position-y: -10px;
+        background: ~"url('img/banner-2.jpg')";
         background-repeat: no-repeat;
-        background-size: cover;
+        background-size: contain;
         h1 {
             display: block;
             width: 400px;
@@ -293,7 +292,8 @@ footer {
             font-size: 30px;
             letter-spacing: 3px;
             margin: 0 auto;
-            padding-top: 240px;
+            padding-top: 220px;
+			text-shadow:5px 2px 6px #000;
         }
     }
     &-pane {
@@ -420,8 +420,8 @@ footer {
 			line-height: 80px;
 			font-size: 20px;
 			margin-top: 4px;
-			margin-right:20px;
-			float: right;
+			margin-left: 100px;
+			float: left;
 			color: green;
 			display: inline;
 		}
@@ -429,7 +429,6 @@ footer {
 		&-picshow {
 			width: 100%;
 			float: left;
-			height: 825px;
 			margin: 0 auto;
 			&-item {
 				display: block;
@@ -490,17 +489,59 @@ footer {
 	}
 }
 
-#detail-page {
+.detail-page {
 	width: @content-width;
 	height: 500px;
 	margin: 30px auto;
-	padding-top: 70px;
 	&-pane-1 {
+		padding-top: 50px;
 		width: 500px;
 		float: left;
+		margin-left: 150px;
+		.jc-hint {
+			font-size: 13px;
+			color: #666;
+		}
+		.jc-demo-box {
+			height:350px;
+			margin-right: 50px;
+			border-right: 1px solid #aaa;
+		}
+		input[type='file'] {
+			margin: 10px 0;
+			padding: 20px 0;
+			height: 40px;
+			width: 280px;
+			border-radius: 10px;
+			padding: 4px 10px;
+		    height: 20px;
+		    line-height: 20px;
+		    position: relative;
+		    cursor: pointer;
+		    color: #888;
+		    background: #fafafa;
+		    border: 1px solid #ddd;
+		    border-radius: 4px;
+		    display: inline;
+			input {
+				line-height: 30px;
+			}
+		}
+		input[type='file']:hover {
+			color: #444;
+		    background: #eee;
+		    border-color: #ccc;
+		    text-decoration: none;
+		}
+		input[type='button'] {
+			width: 60px;
+			line-height: 31px;
+			height: 31px;
+			font-size: 14px;
+		}
 	}
 	&-pane-2 {
-		width: 600px;
+		width: 500px;
 		float: left;
 		table {
 			text-align: right;
@@ -512,30 +553,27 @@ footer {
 			}
 		}
 		input[type='text'] {
-			width: 400px;
+			width: 284px;
 		}
-		input[type='submit'],input[type='button'] {
-			width: 150px;
+		input[type='submit'] {
+			width: 80px;
+			height: 40px;
+			font-size: 16px;
 		}
-		//input[type='submit'] {
-		//	background-color: @tertiary-btn-color;
-		//    &:hover{
-		//        background-color: @tertiary-shadow-color;
-		//    }
-		//}
 		select {
-			width: 432px;
 			height: 42px;
-			background-position-x: 405px;
 		}
 	    .select-m {
-		    width: 216px;
-		    background-position-x: 182px;
+		    width: 316px;
+		    background-position-x: 286px;
 	    }
 	    .select-s {
 	        width: 100px;
-	        background-position-x: 72px;
+	        background-position-x: 69px;
 	    }
 		
 	}
+	
 }
+
+

@@ -195,7 +195,7 @@ public class PetServlet extends HttpServlet {
             List<FileItem> fileItemList = upload.parseRequest(context);
             for (FileItem fileItem : fileItemList) {
                 if (!fileItem.isFormField()) {
-                    //不是普通的表单项，即是上传的是文件
+                    //不是普通的表单项，即上传的是文件
                     fileName = fileItem.getName();
                     String root=request.getServletContext().getRealPath("/media/");
                     fileName =root+fileName;

@@ -23,7 +23,7 @@ public class PetDAO {
 		try {
 			Connect.exeUpdate(stmt);
 		} catch (SQLException e) {
-            System.out.print("Error occurred while INSERT Operation: " + e);
+			e.printStackTrace();
             return false;
 		}
 		return true;
@@ -38,10 +38,25 @@ public class PetDAO {
         try {
             Connect.exeUpdate(stmt);
         } catch (SQLException e) {
-            System.out.print("Error occurred while DELETE Operation: " + e);
+        	e.printStackTrace();
             return false;
         }
         return true;
+	}
+	
+	public boolean wipePets(Integer speciesid) {
+		String stmt =
+				" BEGIN;" +
+                " DELETE FROM pet" +
+                " WHERE speciesid="+speciesid+";" +
+                " COMMIT;";
+		try {
+			Connect.exeUpdate(stmt);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 	
 	public boolean updatePet(Pet pet) {
@@ -58,7 +73,7 @@ public class PetDAO {
 		try {
 		    Connect.exeUpdate(stmt);
 		} catch (SQLException e) {
-		    System.out.print("Error occurred while UPDATE Operation: " + e);
+			e.printStackTrace();
 		    return false;
 		}
 		return true;
