@@ -14,13 +14,22 @@
      String path = request.getContextPath();
      String picPath="/media/";
      String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()+ path + picPath;
-	  %>
+	 
+     String method = (String) request.getAttribute("method");
+     Integer maxPageIndex = (Integer) request.getAttribute("maxPageIndex");
+     Integer pageIndex = Integer.parseInt(request.getParameter("pageIndex"));
+     Integer prevPageIndex = pageIndex - 1;
+     Integer nextPageIndex = pageIndex + 1;
+	 String prevPage = "PetServlet?method="+method+"&pageIndex="+prevPageIndex;
+	 String nextPage = "PetServlet?method="+method+"&pageIndex="+nextPageIndex; 
+	 %>
 	<%@ include file="header.jsp"%>
 	
+	<div class="page">
 	<div class="content">
 	<div class="content-search">
 		<div class="content-search-pane">
-			<form action="PetServlet?method=searchPet" method="post">
+			<form action="PetServlet?method=searchPets" method="post">
 				<a href="PetServlet?method=toInsertPet">ADD NEW</a>
 				<input type="text" name="keyword" value=${param.keyword} >
 				<input type="submit" value="SEARCH">
@@ -45,8 +54,24 @@
 			</a>	
 		</c:forEach>
 	</div>
+	
+	<div class="content-pager">
+		<div class="content-pager-pane">
+		<% if( prevPageIndex > 0){ %>
+			<a href="<%=prevPage %>" class="content-pager-btn">Prev</a>
+		<% } else { %>
+			<span style="border:0;" class="content-pager-btn">&nbsp;</span>
+		<% } %>
+		<% if( nextPageIndex <= maxPageIndex){ %>
+			<a href="<%=nextPage %>" class="content-pager-btn">Next</a>
+		<% } else { %>
+			<span style="border:0;" class="content-pager-btn">&nbsp;</span>
+		<% } %>
+		</div>
 	</div>
 	
+	</div>
+	</div>
 	<%@ include file="footer.jsp" %>
 </body>
 </html>

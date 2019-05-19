@@ -12,7 +12,7 @@ public class Sqlite
     Statement stmt = null;
     try {
       Class.forName("org.sqlite.JDBC");
-      c = DriverManager.getConnection("jdbc:sqlite:E:/eclipse-workspace/pet/db/data.db");
+      c = DriverManager.getConnection("jdbc:sqlite:E:\\eclipse-workspace\\lokka-petclinic\\db\\data.db");
       
       stmt = c.createStatement();
       String drop = "DROP TABLE vet";

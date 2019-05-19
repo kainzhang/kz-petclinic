@@ -8,183 +8,43 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Update Pet</title>
 	<script type="text/javascript" src="js/date.js" ></script>
+	<link rel="stylesheet" href="css/jquery.Jcrop.css" type="text/css" />
 </head>
 <body>
 	<%@ include file="header.jsp"%>
 	<% 
-		int flag = Integer.parseInt(request.getParameter("flag"));
+		int flag = (Integer)request.getAttribute("flag");
 		Pet pet = null;
 		String[] dateArray={};
+		String path = request.getContextPath();
+     	String picPath="/media/";
+     	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()+ path + picPath;
+		
 		if(flag==0) {            
 			pet = (Pet) request.getAttribute("aimPet");
 			String bday = pet.getBday();
 			dateArray = bday.split("-");
+			basePath += pet.getPic(); 
 		}      
-	%> 
-	<%
-     	String path = request.getContextPath();
-     	String picPath="/media/";
-     	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()+ path + picPath;
-     	basePath += pet.getPic(); 
+     	
+     	
      %>
-	<script src="js/jquery.Jcrop.js"></script>
-    <script type="text/javascript">
-      var arr = new Array();
-      var image2 = new Image();
-      var jcrop_api,boundx,boundy,$pcnt,$pimg,xsize,ysize,shade,targetP,picFile;
-      function selectPic(file) {
-        if (!file.files || !file.files[0]) {
-          return;
-        }
-        shade=document.getElementById("shade");
-        targetP=document.getElementById("target");
-        shade.style.display="none";
-        var reader = new FileReader();
-        reader.onload = function(evt) {//加载图片事件
-          targetP.src = evt.target.result;
-          jcrop_api.setImage(evt.target.result);
-          image2.src = evt.target.result;
-        };
-        reader.readAsDataURL(file.files[0]);
-        InitJquery();
-      }
-      function InitJquery(){//初始化jcrp
-          $preview = $("#preview-pane");
-          $pcnt = $("#preview-pane .preview-container");
-          $pimg = $("#preview-pane .preview-container img");
-          xsize = $pcnt.width();
-          ysize = $pcnt.height();
-        console.log("init", [xsize, ysize]);
-        $("#target").Jcrop(
-          {
-            onChange: updatePreview,
-            onSelect: updatePreview,
-            boxWidth:500,
-            boxHeight:500,
-            aspectRatio:1,
-            aspectRatio: xsize / ysize
-          },
-          function() {
-            jcrop_api = this;
-            $preview.appendTo(jcrop_api.ui.holder);
-          }
-        );
-      }
-      function updatePreview(c) {//修改略缩图大小
-        if (parseInt(c.w) > 0) {
-          var rx = xsize / c.w;
-          var ry = ysize / c.h;
-          boundx = image2.width;
-          boundy = image2.height;
-          $pimg.css({
-            width: Math.round(rx * boundx) + "px",
-            height: Math.round(ry * boundy) + "px",
-            marginLeft: "-" + Math.round(rx * c.x) + "px",
-            marginTop: "-" + Math.round(ry * c.y) + "px"
-          });
-        }
-        arr[0] = c.x;
-        arr[1] = c.y;
-        arr[2] = c.w;
-        arr[3] = c.h;
-      }
-      function convertBase64UrlToBlob(urlData,type){
-        var bytes=window.atob(urlData.split(',')[1]);        //去掉url的头，并转换为byte
-        //处理异常,将ascii码小于0的转换为大于0
-        var ab = new ArrayBuffer(bytes.length);
-        var ia = new Uint8Array(ab);
-        for (var i = 0; i < bytes.length; i++) {
-            ia[i] = bytes.charCodeAt(i);
-        }
-        return new Blob( [ab] , {type : 'image/'+type});
-    }
-
-
-      function cutPic(){
-        var canvas = document.createElement("canvas");
-        canvas.width=arr[2];
-        canvas.height=arr[3];
-        var context = canvas.getContext("2d");
-        context.drawImage(image2,-arr[0],-arr[1]);
-        var url=canvas.toDataURL("image/jpeg");
-        shade.style.display="block";
-        jcrop_api.destroy();
-        targetP.src="";
-        $("#shade").css({
-          "background-image": "url("+url+")",
-          "background-size": "cover"
-        });
-        picFile=convertBase64UrlToBlob(url,"jpeg");
-      }
-      function updataPic(){
-          var formData=new FormData();
-          var picName="petPic"+parseInt(new Date().getTime()/1000)+".jpeg";
-          document.getElementById("pic").value=picName;
-          formData.append(picName,picFile,picName);
-          $.ajax({
-            url:  'PetServlet?method=updatePic',
-            type: 'post',
-            async: false,
-            data: formData,
-            processData: false,// 告诉jQuery不要去处理发送的数据
-            contentType: false,// 告诉jQuery不要去设置Content-Type请求头
-            beforeSend: function () {//过程...
-                console.log('正在进行，请稍候')
-            },
-            success: function () {
-                  console.log('导入成功');
-            },
-            error:function(){
-                console.log('导入错误');
-            }
-          })
-        }
-    </script>
+<script src="js/jquery.Jcrop.js"></script>
+    <script type="text/javascript" src="js/cropPic.js"></script>
     <link rel="stylesheet" href="css/jquery.Jcrop.css" type="text/css" />
+    <style rel="stylesheet" href="css/cropPic.css" type="text/css" ></style>
     <style type="text/css">
-      /* Apply these styles only when #preview-pane has
-       been placed within the Jcrop widget */
-      .jcrop-holder #preview-pane {
-        
-        
-        display: none;
-        position: absolute;
-        z-index: 2000;
-        top: 10px;
-        right: -280px;
-        padding: 6px;
-        border: 1px rgba(0, 0, 0, 0.4) solid;
-        background-color: white;
-
-        -webkit-border-radius: 6px;
-        -moz-border-radius: 6px;
-        border-radius: 6px;
-
-        -webkit-box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.2);
-        -moz-box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.2);
-        box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.2);
-      }
-
-      /* The Javascript code will set the aspect ratio of the crop
-       area based on the size of the thumbnail preview,
-       specified here */
-      #preview-pane .preview-container {
-        width: 250px;
-        height: 250px;
-        overflow: hidden;
-        display: none;
-      }
-      #shade{
-        width:500px;
-        height: 500px;
+    	#shade{
+        width:350px;
+        height: 350px;
         position: relative;
         color: #000;
-        z-index: 9999;
+        z-index: 8;
         background-size: cover;
         background-image:url(<%=basePath%>);
-      }
+        }
+
     </style>
-    
 	<div id="detail-page">
 
 		
@@ -194,8 +54,7 @@
 	      <div class="row">
 	        <div class="span12">
 	          <input type="file" onchange="selectPic(this)" id="selectBtn" />
-	          <label onclick="cutPic()">剪切</label>
-	          <label onclick="updataPic()">上传</label>
+	          <a onclick="cutPic(),updataPic()">剪切</a>
 	          <div class="jc-demo-box">
 	            <div id="shade"> </div>
 	            <img src="" id="target" alt="" />
@@ -204,6 +63,7 @@
 	                <img src="" class="jcrop-preview" alt="" id="pic2" />
 	              </div>
 	            </div>
+	            <p id="hint"> </p>
 	          </div>
 	        </div>
 	      </div>
@@ -221,7 +81,7 @@
 		<tr>
 			<td><span></span></td>
 			<td colspan="4">
-				<input type="text" name="id" <% if(flag==0){ %> value="<%=pet.getId()%>" <% } %> readonly="readonly">
+				<input type="hidden" name="id" <% if(flag==0){ %> value="<%=pet.getId()%>" <% } %> readonly="readonly">
 			</td>
 		<tr>
 			<td><span>Name</span></td>
@@ -294,7 +154,7 @@
 			<% } %>
 			</td>
 			<td >
-				<a href="PetServlet?method=showPets">BACK</a>
+				<a href="javascript:history.go(-1);">BACK</a>
 			</td>
 			<td colspan="2">
                 <input type="text" name="pic" style="display:none;" value="<%=basePath%>" id="pic">

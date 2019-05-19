@@ -32,7 +32,7 @@
                 <li><a href="SpeciesServlet?method=showSpecies">Check Species</a></li> 
                 <li><a href="SpecialtyServlet?method=showSpecialties">Check Specialties</a></li> 
                 <li><a href="OwnerServlet?method=showOwners">Check Customers</a></li>
-                <li><a href="PetServlet?method=showPets">Check Pets</a></li>
+                <li><a href="PetServlet?method=showPets&pageIndex=1">Check Pets</a></li>
             </ul> 
 		</li>
         <li class="nav-item"><a class="fc-item" href="#">COMMUNITY</a></li> 

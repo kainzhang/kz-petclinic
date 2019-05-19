@@ -88,24 +88,42 @@ public class PetDAO {
 	}
 	
 	
-	public List<Pet> searchPets(String keyword) {
+	public List<Pet> searchPets(String keyword, Integer start, Integer end) {
 		String stmt = "select p.ID as id,p.NAME as name,p.BDAY as bday,o.ID as ownerid,o.name as owner,s.id as speciesid,s.name as species,p.PIC as pic" + 
 				" from (pet as p inner join owner as o on p.OWNERID=o.Id)" + 
 				" inner join species as s on p.SPECIESID=s.id" + 
-				" where p.name like '%"+keyword+"%';";
+				" where p.name like '%"+keyword+"%' OR s.name LIKE '%"+keyword+"%' " +
+				" ORDER BY p.ID LIMIT "+start+", "+end+" ;";
 		return getList(stmt);
 	}
 	
-	public List<Pet> getPets() {
+	public List<Pet> getPets(Integer start, Integer end) {
 		String stmt = " select p.ID as id,p.NAME as name,p.BDAY as bday,o.ID as ownerid,o.name as owner,s.id as speciesid,s.name as species,p.PIC as pic" + 
 				" from (pet as p inner join owner as o on p.OWNERID=o.Id)" + 
-				" inner join species as s on p.SPECIESID=s.id ;";
+				" inner join species as s on p.SPECIESID=s.id " +
+				" ORDER BY p.ID LIMIT "+start+", "+end+" ;";
 		return getList(stmt);
+	}
+	
+	public Integer getResultAmount(String keyword) {
+		String stmt = 
+				"select COUNT(*) totalcount" + 
+				" from (pet as p inner join owner as o on p.OWNERID=o.Id)" + 
+				" inner join species as s on p.SPECIESID=s.id " + 
+				" where p.name like '%"+keyword+"%' OR s.name LIKE '%"+keyword+"%' ;";
+		try {
+			ResultSet rs = Connect.exeQuery(stmt);
+			if(rs.next()) return rs.getInt("totalcount");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 	
 	public Pet getPet(Integer id) {
 		String stmt =
-				"select p.ID as id,p.NAME as name,p.BDAY as bday,o.ID as ownerid,o.name as owner,s.id as speciesid,s.name as species,p.PIC as pic" + 
+				"select p.ID as id,p.NAME as name,p.BDAY as bday,o.ID as ownerid, " + 
+				" o.name as owner,s.id as speciesid,s.name as species,p.PIC as pic" + 
 				" from (pet as p inner join owner as o on p.OWNERID=o.Id)" + 
 				" inner join species as s on p.SPECIESID=s.id" + 
 				" WHERE p.ID="+id+" ;";
@@ -127,5 +145,16 @@ public class PetDAO {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public Integer getAmount() {
+		String stmt = " SELECT COUNT(*) totalcount FROM PET;";
+		try {
+			ResultSet rs = Connect.exeQuery(stmt);
+			if(rs.next()) return rs.getInt("totalcount");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 }

@@ -13,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.tomcat.util.http.fileupload.FileItem;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
@@ -24,7 +25,9 @@ import org.apache.tomcat.util.http.fileupload.servlet.ServletRequestContext;
 import dao.OwnerDAO;
 import dao.PetDAO;
 import dao.SpeciesDAO;
+import dao.UserDAO;
 import model.Pet;
+import model.User;
 
 /**
  * Servlet implementation class PatServlet
@@ -76,7 +79,8 @@ public class PetServlet extends HttpServlet {
 		
 		OwnerDAO odao = new OwnerDAO();
 		request.setAttribute("ownerlist", odao.getOwners());
-		request.getRequestDispatcher("petdetail.jsp?flag=1").forward(request, response);
+		request.setAttribute("flag", 1);
+		request.getRequestDispatcher("petdetail.jsp").forward(request, response);
 	}
 	
 	private void insertPet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -100,7 +104,7 @@ public class PetServlet extends HttpServlet {
 		if(dao.insertPet(pet)) message = "Insert successfully!";
 		else message = "Insert Failed!";
 		request.setAttribute("message", message);
-		request.getRequestDispatcher("PetServlet?method=showPets&message="+message).forward(request, response);
+		request.getRequestDispatcher("PetServlet?method=showPets&pageIndex=1&message="+message).forward(request, response);
 	}	
 	private void updatePet (HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Integer id=Integer.parseInt(request.getParameter("id"));
@@ -125,7 +129,7 @@ public class PetServlet extends HttpServlet {
 		if(dao.updatePet(pet)) message = "Update successfully!";
 		else message = "Update Failed!";
 		request.setAttribute("message", message);
-		request.getRequestDispatcher("PetServlet?method=showPets&message="+message).forward(request, response);
+		request.getRequestDispatcher("PetServlet?method=showPets&pageIndex=1&message="+message).forward(request, response);
 		
 	}
 	private void deletePet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -136,14 +140,7 @@ public class PetServlet extends HttpServlet {
 		else message = "Delete failed!";
 		request.setCharacterEncoding("UTF-8");
 		request.setAttribute("message", message);
-		request.getRequestDispatcher("PetServlet?method=showPets&message="+message).forward(request, response);
-	}
-	
-	private void showPets (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PetDAO dao = new PetDAO();
-		List<Pet> list = dao.getPets();
-		request.setAttribute("list", list);
-		request.getRequestDispatcher("pet.jsp").forward(request, response);
+		request.getRequestDispatcher("PetServlet?method=showPets&pageIndex=1&message="+message).forward(request, response);
 	}
 	
 	private void showPet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -156,18 +153,36 @@ public class PetServlet extends HttpServlet {
 		
 		OwnerDAO odao = new OwnerDAO();
 		request.setAttribute("ownerlist", odao.getOwners());
-		request.getRequestDispatcher("petdetail.jsp?flag=0").forward(request, response);
+		request.setAttribute("flag", 0);
+		request.getRequestDispatcher("petdetail.jsp").forward(request, response);
 	}
 	
-	private void searchPet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void showPets (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PetDAO dao = new PetDAO();
-		String keyword = request.getParameter("keyword");
-		List<Pet> list = dao.searchPets(keyword);
+		Integer pageIndex = Integer.parseInt(request.getParameter("pageIndex"));
+		Integer maxPageIndex = (dao.getAmount()+18)/18;
+		List<Pet> list = dao.getPets((pageIndex-1)*18, pageIndex*18);
+		System.out.println(pageIndex+" "+maxPageIndex);
+		request.setAttribute("maxPageIndex", maxPageIndex);
+		request.setAttribute("method", "showPets");
 		request.setAttribute("list", list);
-		request.getRequestDispatcher("pet.jsp?keyword="+keyword).forward(request, response);
+		request.getRequestDispatcher("pet.jsp?pageIndex="+pageIndex).forward(request, response);
 	}
+	
+	private void searchPets (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		PetDAO dao = new PetDAO();	
+		String keyword = request.getParameter("keyword");
+		Integer pageIndex = Integer.parseInt(request.getParameter("pageIndex"));
+		Integer maxPageIndex = (dao.getResultAmount(keyword)+18)/18;
+		List<Pet> list = dao.getPets((pageIndex-1)*18, pageIndex*18);
+		request.setAttribute("pageIndex", pageIndex);
+		request.setAttribute("maxPageIndex", maxPageIndex);
+		request.setAttribute("method", "searchPets");
+		request.setAttribute("list", list);
+		request.getRequestDispatcher("pet.jsp?keyword="+keyword+"&pageIndex="+pageIndex).forward(request, response);
+	}
+	
 	private void updatePic (HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
 		String fileName="";
 		Map<String, String> mp =new HashMap<String, String>();
 		request.setCharacterEncoding("utf-8");
@@ -181,7 +196,6 @@ public class PetServlet extends HttpServlet {
             for (FileItem fileItem : fileItemList) {
                 if (!fileItem.isFormField()) {
                     //不是普通的表单项，即是上传的是文件
-                	
                     fileName = fileItem.getName();
                     String root=request.getServletContext().getRealPath("/media/");
                     fileName =root+fileName;

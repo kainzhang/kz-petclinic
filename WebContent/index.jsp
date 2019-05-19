@@ -14,7 +14,7 @@
 <body>
 	<%@ include file="header.jsp"%>
 	<div id="index-content">
-		<a href="PetServlet?method=showPets" id="index-content-img-1">
+		<a href="PetServlet?method=showPets&pageIndex=1" id="index-content-img-1">
 			<div id="index-content-img-title">
 				<p>Our little</p>
 				<p>&nbsp;&nbsp;Customers</p>
