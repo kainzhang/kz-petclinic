@@ -20,7 +20,7 @@
 				<p>&nbsp;&nbsp;Customers</p>
 			</div>
 		</a>
-		<a href="VetServlet?method=showVets" id="index-content-img-2">
+		<a href="VetServlet?method=showVets&pageIndex=1" id="index-content-img-2">
 			<div id="index-content-img-title">
 				<p>&nbsp;&nbsp;Super</p>
 				<p>&nbsp;&nbsp;&nbsp;&nbsp;Ace Vets</p>

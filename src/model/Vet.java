@@ -9,7 +9,7 @@ public class Vet implements Serializable {
 	 */
 	private static final long serialVersionUID = 7039234306391176173L;
 	private Integer id;
-	private String name;
+	private String name, pic;
 	private List<Specialty> specialties;
 	
 	public Integer getId() {
@@ -29,5 +29,11 @@ public class Vet implements Serializable {
 	}
 	public void setSpecialties(List<Specialty> specialties) {
 		this.specialties = specialties;
+	}
+	public String getPic() {
+		return pic;
+	}
+	public void setPic(String pic) {
+		this.pic = pic;
 	}
 }

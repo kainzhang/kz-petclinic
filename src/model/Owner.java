@@ -8,7 +8,7 @@ public class Owner implements Serializable {
 	 */
 	private static final long serialVersionUID = -6985451998934066131L;
 	private Integer id;
-	private String name, tel, addr;
+	private String name, tel, addr , pic;
 	public Integer getId() {
 		return id;
 	}
@@ -32,5 +32,11 @@ public class Owner implements Serializable {
 	}
 	public void setAddr(String addr) {
 		this.addr = addr;
+	}
+	public String getPic() {
+		return pic;
+	}
+	public void setPic(String pic) {
+		this.pic = pic;
 	}
 }

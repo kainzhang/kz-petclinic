@@ -53,7 +53,7 @@
 			<img src="" id="target" alt="" />
 		</div>
 		<input type="file" onchange="selectPic(this)" id="selectBtn">
-		<input type="button" onclick="cutPic(),updataPic()" value="Confirm">
+		<input type="button" onclick="cutPic(),updataPic('Pet')" value="Confirm">
 		<p id="hint" class="jc-hint">Note: Please crop and confirm the picture after uploading it!</p>
 	</div>
 	<form 

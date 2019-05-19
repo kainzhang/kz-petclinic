@@ -6,7 +6,6 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<link rel="stylesheet/less" type="text/css" href="css/styles.less" />
-	<link rel="stylesheet" href="css/popupwindow.css">
 	<script>
 		less = {
 		  env: "development",
@@ -28,10 +27,10 @@
     <ul id="nav">
     	<li class="nav-item"><a class="fc-item" href="#">WELCOME TO LOKKA<span class="arrow arrow-down"></span></a>&nbsp;
             <ul class="nav-item-child"> 
-                <li><a href="VetServlet?method=showVets">Check Veterinarians</a></li> 
+                <li><a href="VetServlet?method=showVets&pageIndex=1">Check Veterinarians</a></li> 
                 <li><a href="SpeciesServlet?method=showSpecies">Check Species</a></li> 
                 <li><a href="SpecialtyServlet?method=showSpecialties">Check Specialties</a></li> 
-                <li><a href="OwnerServlet?method=showOwners">Check Customers</a></li>
+                <li><a href="OwnerServlet?method=showOwners&pageIndex=1">Check Customers</a></li>
                 <li><a href="PetServlet?method=showPets&pageIndex=1">Check Pets</a></li>
             </ul> 
 		</li>

@@ -75,13 +75,13 @@ function cutPic() {
   picFile = convertBase64UrlToBlob(url, "jpeg");
 }
 
-function updataPic() {
+function updataPic(className) {
   var formData = new FormData();
-  var picName = "petPic" + parseInt(new Date().getTime() / 1000) + ".jpeg";
+  var picName = className+"Pic" + parseInt(new Date().getTime() / 1000) + ".jpeg";
   document.getElementById("pic").value = picName;
   formData.append(picName, picFile, picName);
   $.ajax({
-    url: 'PetServlet?method=updatePic',
+    url: className+'Servlet?method=updatePic',
     type: 'post',
     async: false,
     data: formData,

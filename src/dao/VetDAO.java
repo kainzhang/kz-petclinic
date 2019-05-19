@@ -13,14 +13,14 @@ public class VetDAO {
 		String stmt = 
 				" BEGIN;" +
                 " INSERT INTO vet" +
-                " (ID, NAME)" +
+                " (ID, NAME, PIC)" +
                 " VALUES" +
-                " (null, '"+vet.getName()+"');" +
+                " (null, '"+vet.getName()+"', '"+vet.getPic()+"');" +
                 " COMMIT;";
 		try {
 			Connect.exeUpdate(stmt);
 		} catch (SQLException e) {
-            System.out.print("Error occurred while INSERT Operation: " + e);
+			e.printStackTrace();
             return false;
 		}
 		return true;
@@ -35,7 +35,7 @@ public class VetDAO {
         try {
             Connect.exeUpdate(stmt);
         } catch (SQLException e) {
-            System.out.print("Error occurred while DELETE Operation: " + e);
+        	e.printStackTrace();
             return false;
         }
         return true;
@@ -45,13 +45,14 @@ public class VetDAO {
     	String stmt =
 				" BEGIN;" +
                 " UPDATE vet" +
-                " SET name = '"+vet.getName()+"' " +
+                " SET name = '"+vet.getName()+"', " +
+                " pic= '"+vet.getPic()+"' " +
                 " WHERE id = "+vet.getId()+"; " +
                 " COMMIT;";
 		try {
 		    Connect.exeUpdate(stmt);
 		} catch (SQLException e) {
-		    System.out.print("Error occurred while UPDATE Operation: " + e);
+			e.printStackTrace();
 		    return false;
 		}
 		return true;
@@ -66,6 +67,7 @@ public class VetDAO {
 				Vet vet = new Vet();
 				vet.setId(rs.getInt("ID"));
 				vet.setName(rs.getString("NAME"));
+				vet.setPic(rs.getString("PIC"));
 				list.add(vet);
 			}
 		} catch (SQLException e) {
@@ -74,14 +76,55 @@ public class VetDAO {
 		return list;	
 	}
 	
-	
-	public List<Vet> searchVets(String keyword) {
-		String stmt = " SELECT * FROM vet WHERE name LIKE '%"+keyword+"%'; ";
+	public List<Vet> searchVets(String keyword, Integer start, Integer end) {
+		String stmt = " SELECT * FROM vet WHERE name LIKE '%"+keyword+"%' " +
+					  " ORDER BY ID LIMIT "+start+", "+end+" ;";
 		return getList(stmt);
 	}
 	
-	public List<Vet> getVets() {
-		String stmt = " SELECT * FROM vet; ";
+	public Integer getResultAmount(String keyword) {
+		String stmt = 
+				" SELECT COUNT(*) totalcount FROM vet WHERE name LIKE '%"+keyword+"%';";
+		try {
+			ResultSet rs = Connect.exeQuery(stmt);
+			if(rs.next()) return rs.getInt("totalcount");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	public Vet getVet(Integer id) {
+		String stmt = " SELECT * FROM vet WHERE id="+id+"; ";
+		Vet vet = new Vet();
+		try {
+			ResultSet rs = Connect.exeQuery(stmt);
+			if(rs.next()) {
+				vet.setId(rs.getInt("ID"));
+				vet.setName(rs.getString("NAME"));
+				vet.setPic(rs.getString("PIC"));
+			}
+			return vet;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public List<Vet> getVets(Integer start, Integer end) {
+		String stmt = " SELECT * FROM vet " +
+					  " ORDER BY id LIMIT "+start+", "+end+" ;";
 		return getList(stmt);
+	}
+	
+	public Integer getAmount() {
+		String stmt = " SELECT COUNT(*) totalcount FROM vet;";
+		try {
+			ResultSet rs = Connect.exeQuery(stmt);
+			if(rs.next()) return rs.getInt("totalcount");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 }

@@ -78,7 +78,7 @@ public class PetServlet extends HttpServlet {
 		request.setAttribute("splist", sdao.getSpecies());
 		
 		OwnerDAO odao = new OwnerDAO();
-		request.setAttribute("ownerlist", odao.getOwners());
+		request.setAttribute("ownerlist", odao.getAllOwners());
 		request.setAttribute("flag", 1);
 		request.getRequestDispatcher("petdetail.jsp").forward(request, response);
 	}
@@ -132,13 +132,13 @@ public class PetServlet extends HttpServlet {
 		request.getRequestDispatcher("PetServlet?method=showPets&pageIndex=1&message="+message).forward(request, response);
 		
 	}
+	
 	private void deletePet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Integer id = Integer.parseInt(request.getParameter("id"));
 		PetDAO dao = new PetDAO();
 		String message;
 		if(dao.deletePet(id)) message = "Delete successfully!";
 		else message = "Delete failed!";
-		request.setCharacterEncoding("UTF-8");
 		request.setAttribute("message", message);
 		request.getRequestDispatcher("PetServlet?method=showPets&pageIndex=1&message="+message).forward(request, response);
 	}
@@ -152,7 +152,7 @@ public class PetServlet extends HttpServlet {
 		request.setAttribute("splist", sdao.getSpecies());
 		
 		OwnerDAO odao = new OwnerDAO();
-		request.setAttribute("ownerlist", odao.getOwners());
+		request.setAttribute("ownerlist", odao.getAllOwners());
 		request.setAttribute("flag", 0);
 		request.getRequestDispatcher("petdetail.jsp").forward(request, response);
 	}
@@ -160,9 +160,8 @@ public class PetServlet extends HttpServlet {
 	private void showPets (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PetDAO dao = new PetDAO();
 		Integer pageIndex = Integer.parseInt(request.getParameter("pageIndex"));
-		Integer maxPageIndex = (dao.getAmount()+18)/18;
+		Integer maxPageIndex = (dao.getAmount()+17)/18;
 		List<Pet> list = dao.getPets((pageIndex-1)*18, pageIndex*18);
-		System.out.println(pageIndex+" "+maxPageIndex);
 		request.setAttribute("maxPageIndex", maxPageIndex);
 		request.setAttribute("method", "showPets");
 		request.setAttribute("list", list);
@@ -171,11 +170,10 @@ public class PetServlet extends HttpServlet {
 	
 	private void searchPets (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PetDAO dao = new PetDAO();	
-		String keyword = request.getParameter("keyword");
 		Integer pageIndex = Integer.parseInt(request.getParameter("pageIndex"));
-		Integer maxPageIndex = (dao.getResultAmount(keyword)+18)/18;
-		List<Pet> list = dao.getPets((pageIndex-1)*18, pageIndex*18);
-		request.setAttribute("pageIndex", pageIndex);
+		String keyword = request.getParameter("keyword");
+		Integer maxPageIndex = (dao.getResultAmount(keyword)+17)/18;
+		List<Pet> list = dao.searchPets(keyword, (pageIndex-1)*18, pageIndex*18);
 		request.setAttribute("maxPageIndex", maxPageIndex);
 		request.setAttribute("method", "searchPets");
 		request.setAttribute("list", list);

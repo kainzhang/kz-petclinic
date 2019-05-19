@@ -11,17 +11,18 @@ import util.Connect;
 public class OwnerDAO {
 	public boolean insertOwner(Owner owner) {
 		String stmt = 
-				" BEGIN;" +
+                " BEGIN;" +
                 " INSERT INTO owner" +
                 " VALUES" +
                 " (null, '"+owner.getName()+
                 "','"+owner.getTel()+
-                "','"+owner.getAddr()+"');" +
+                "','"+owner.getAddr()+
+                "','"+owner.getPic()+"');" +
                 " COMMIT;";
 		try {
 			Connect.exeUpdate(stmt);
 		} catch (SQLException e) {
-            System.out.print("Error occurred while INSERT Operation: " + e);
+			e.printStackTrace();
             return false;
 		}
 		return true;
@@ -36,25 +37,27 @@ public class OwnerDAO {
         try {
             Connect.exeUpdate(stmt);
         } catch (SQLException e) {
-            System.out.print("Error occurred while DELETE Operation: " + e);
+        	e.printStackTrace();
             return false;
         }
         return true;
 	}
 	
+	
 	public boolean updateOwner(Owner owner) {
     	String stmt =
-				" BEGIN;" +
+                " BEGIN;" +
                 " UPDATE owner" +
                 " SET name = '"+owner.getName()+"' ," +
                 " tel = '"+owner.getTel()+"' ," +
                 " addr = '"+owner.getAddr()+"'," +
+                " pic = '"+owner.getPic()+"'" +
                 " WHERE id = "+owner.getId()+"; " +
                 " COMMIT;";
 		try {
 		    Connect.exeUpdate(stmt);
 		} catch (SQLException e) {
-		    System.out.print("Error occurred while UPDATE Operation: " + e);
+			e.printStackTrace();
 		    return false;
 		}
 		return true;
@@ -71,6 +74,7 @@ public class OwnerDAO {
 				owner.setName(rs.getString("NAME"));
 				owner.setAddr(rs.getString("addr"));
 				owner.setTel(rs.getString("tel"));
+				owner.setPic(rs.getString("pic"));
 				list.add(owner);
 			}
 		} catch (SQLException e) {
@@ -79,14 +83,63 @@ public class OwnerDAO {
 		return list;	
 	}
 	
-	
-	public List<Owner> searchOwners(String keyword) {
-		String stmt = " SELECT * FROM owner WHERE name LIKE '%"+keyword+"%'; ";
+    public List<Owner> searchOwners(String keyword, Integer start, Integer end) {
+        String stmt = " SELECT * FROM owner WHERE name LIKE '%"+keyword+"%' "+
+                    " ORDER BY ID LIMIT "+start+", "+end+" ;";
 		return getList(stmt);
 	}
+    
+
 	
-	public List<Owner> getOwners() {
-		String stmt = " SELECT * FROM owner ; ";
+	public List<Owner> getOwners(Integer start, Integer end) {
+		String stmt =" SELECT * FROM owner "+
+				" ORDER BY id LIMIT "+start+", "+end+" ;";
 		return getList(stmt);
+	}
+	public List<Owner> getAllOwners() {
+		String stmt =" SELECT * FROM owner ;";
+		return getList(stmt);
+	}
+	public Integer getResultAmount(String keyword) {
+		String stmt = 
+                "select COUNT(*) totalcount" + 
+                " from owner  WHERE name LIKE '%"+keyword+"%' ;";
+		try {
+			ResultSet rs = Connect.exeQuery(stmt);
+			if(rs.next()) return rs.getInt("totalcount");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	public Owner getOwner(Integer id) {
+        String stmt ="select * from owner where id="+id+" ;";
+		Owner owner = new Owner();
+		try {
+			ResultSet rs = Connect.exeQuery(stmt);
+			if(rs.next()) {
+				owner.setId(rs.getInt("ID"));
+				owner.setName(rs.getString("NAME"));
+				owner.setAddr(rs.getString("addr"));
+				owner.setPic(rs.getString("PIC"));
+				owner.setTel(rs.getString("tel"));
+			}
+			return owner;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public Integer getAmount() {
+		String stmt = " SELECT COUNT(*) totalcount FROM Owner;";
+		try {
+			ResultSet rs = Connect.exeQuery(stmt);
+			if(rs.next()) return rs.getInt("totalcount");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 }

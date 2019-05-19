@@ -163,7 +163,7 @@ public class PetDAO {
 	}
 	
 	public Integer getAmount() {
-		String stmt = " SELECT COUNT(*) totalcount FROM PET;";
+		String stmt = " SELECT COUNT(*) totalcount FROM pet;";
 		try {
 			ResultSet rs = Connect.exeQuery(stmt);
 			if(rs.next()) return rs.getInt("totalcount");

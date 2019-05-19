@@ -1,8 +1,11 @@
 package servlet;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,7 +13,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.tomcat.util.http.fileupload.FileItem;
+import org.apache.tomcat.util.http.fileupload.RequestContext;
+import org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory;
+import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
+import org.apache.tomcat.util.http.fileupload.servlet.ServletRequestContext;
+
+
 import dao.VetDAO;
+
 import model.Vet;
 
 /**
@@ -57,55 +68,119 @@ public class VetServlet extends HttpServlet {
         }
 	}
 	
+	private void toInsertVet  (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//		SpecialtyDAO sdao = new SpecialtyDAO();
+//		request.setAttribute("splist", sdao.getSpecialties());
+		
+		request.setAttribute("flag", 1);
+		request.getRequestDispatcher("vetdetail.jsp").forward(request, response);
+	}
+	
 	private void insertVet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String name = request.getParameter("name");
+		String pic = request.getParameter("pic");
+		
 		Vet vet = new Vet();
 		vet.setName(name);
+		vet.setPic(pic);
 		VetDAO dao = new VetDAO();
 		String message;
-		if(dao.insertVet(vet)) message = "添加成功！";
-		else message = "添加失败";
+		if(dao.insertVet(vet)) message = "Insert successful!";
+		else message = "Insert failed!";
 		request.setAttribute("message", message);
-		request.getRequestDispatcher("VetServlet?method=showVets&message="+message).forward(request, response);
+		request.getRequestDispatcher("VetServlet?method=showVets&pageIndex=1&message="+message).forward(request, response);
+	}
+	
+	private void updateVet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Integer id = Integer.parseInt(request.getParameter("id"));
+		String name = request.getParameter("name");
+		String pic = request.getParameter("pic");
+		
+		Vet vet = new Vet();
+		vet.setId(id);
+		vet.setName(name);
+		vet.setPic(pic);
+		VetDAO dao = new VetDAO();
+		String message;
+		if(dao.updateVet(vet)) message = "Update successful!";
+		else message = "Update failed!";
+		request.setAttribute("message", message);
+		request.getRequestDispatcher("VetServlet?method=showVets&pageIndex=1&message="+message).forward(request, response);
 	}
 	
 	private void deleteVet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Integer id = Integer.parseInt(request.getParameter("id"));
 		VetDAO dao = new VetDAO();
 		String message;
-		if(dao.deleteVet(id)) message = "删除成功！";
-		else message = "删除失败！";
-		request.setCharacterEncoding("UTF-8");
+		if(dao.deleteVet(id)) message = "Delete successful!";
+		else message = "Delete failed!";
 		request.setAttribute("message", message);
-		request.getRequestDispatcher("VetServlet?method=showVets&message="+message).forward(request, response);
+		request.getRequestDispatcher("VetServlet?method=showVets&pageIndex=1&message="+message).forward(request, response);
 	}
 	
-	private void updateVet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Integer id = Integer.parseInt(request.getParameter("id"));
-		String name = request.getParameter("name");
-		Vet vet = new Vet();
-		vet.setId(id);
-		vet.setName(name);
+	private void showVet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		VetDAO dao = new VetDAO();
-		String message;
-		if(dao.updateVet(vet)) message = "修改成功！";
-		else message = "修改失败！";
-		request.setAttribute("message", message);
-		request.getRequestDispatcher("VetServlet?method=showVets&message="+message).forward(request, response);
+		Integer id = Integer.parseInt(request.getParameter("id"));
+		request.setAttribute("aimVet", dao.getVet(id));
+		
+//		SpecialtyDAO sdao = new SpecialtyDAO();
+//		request.setAttribute("splist", sdao.getSpecialties());
+		request.setAttribute("flag", 0);
+		request.getRequestDispatcher("vetdetail.jsp").forward(request, response);
 	}
 	
 	private void showVets (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		VetDAO dao = new VetDAO();
-		List<Vet> list = dao.getVets();
+		
+		Integer pageIndex = Integer.parseInt(request.getParameter("pageIndex"));
+		Integer maxPageIndex = (dao.getAmount()+17)/18;
+		List<Vet> list = dao.getVets((pageIndex-1)*18, pageIndex*18);
+		request.setAttribute("maxPageIndex", maxPageIndex);
+		request.setAttribute("method", "showVets");
 		request.setAttribute("list", list);
-		request.getRequestDispatcher("vet.jsp").forward(request, response);
+		request.getRequestDispatcher("vet.jsp?pageIndex="+pageIndex).forward(request, response);
 	}
 	
 	private void searchVets (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		VetDAO dao = new VetDAO();
+		Integer pageIndex = Integer.parseInt(request.getParameter("pageIndex"));
 		String keyword = request.getParameter("keyword");
-		List<Vet> list = dao.searchVets(keyword);
+		Integer maxPageIndex = (dao.getResultAmount(keyword)+17)/18;
+		List<Vet> list = dao.searchVets(keyword, (pageIndex-1)*18, pageIndex*18);
+		request.setAttribute("maxPageIndex", maxPageIndex);
+		request.setAttribute("method", "searchVets");
 		request.setAttribute("list", list);
-		request.getRequestDispatcher("vet.jsp?keyword="+keyword).forward(request, response);
+		request.getRequestDispatcher("vet.jsp?keyword="+keyword+"&pageIndex="+pageIndex).forward(request, response);
+	}
+	
+	private void updatePic (HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String fileName="";
+		Map<String, String> mp =new HashMap<String, String>();
+		request.setCharacterEncoding("utf-8");
+        DiskFileItemFactory factroy = new DiskFileItemFactory();
+        ServletFileUpload upload = new ServletFileUpload(factroy);
+        boolean isF = ServletFileUpload.isMultipartContent(request);
+        if (isF) {
+            //使用解析器解析上传的表单数据，每个FileItem对应一个表单项
+        	RequestContext context=new ServletRequestContext(request);
+            List<FileItem> fileItemList = upload.parseRequest(context);
+            for (FileItem fileItem : fileItemList) {
+                if (!fileItem.isFormField()) {
+                    //不是普通的表单项，即上传的是文件
+                    fileName = fileItem.getName();
+                    String root=request.getServletContext().getRealPath("/media/");
+                    fileName =root+fileName;
+                    System.out.printf(fileName);
+                    File file = new File(fileName);
+                    fileItem.write(file);
+                    System.out.println("  导入成功");
+                } else {
+                    //获取表单中的非文件值
+                	mp.put(fileItem.getFieldName(), fileItem.getString("UTF-8"));
+                    System.out.println(fileItem.getFieldName());
+                    System.out.println(fileItem.getString("UTF-8"));
+                }
+            }
+        }
 	}
 }

@@ -1,35 +1,33 @@
  <%@ page language="java" contentType="text/html; charset=UTF-8" import="model.Pet,java.util.List"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%
+	String path = request.getContextPath();
+	String picPath="/media/";
+	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()+ path + picPath;
+	
+	String method = (String) request.getAttribute("method");
+	Integer maxPageIndex = (Integer) request.getAttribute("maxPageIndex");
+	Integer pageIndex = Integer.parseInt(request.getParameter("pageIndex"));
+	Integer prevPageIndex = pageIndex - 1;
+	Integer nextPageIndex = pageIndex + 1;
+	String prevPage = "PetServlet?method="+method+"&pageIndex="+prevPageIndex;
+	String nextPage = "PetServlet?method="+method+"&pageIndex="+nextPageIndex; 
+%>
 <!DOCTYPE html>
 <html>
-
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>PET</title>
 </head>
-
 <body>
-     <%
-     String path = request.getContextPath();
-     String picPath="/media/";
-     String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()+ path + picPath;
-	 
-     String method = (String) request.getAttribute("method");
-     Integer maxPageIndex = (Integer) request.getAttribute("maxPageIndex");
-     Integer pageIndex = Integer.parseInt(request.getParameter("pageIndex"));
-     Integer prevPageIndex = pageIndex - 1;
-     Integer nextPageIndex = pageIndex + 1;
-	 String prevPage = "PetServlet?method="+method+"&pageIndex="+prevPageIndex;
-	 String nextPage = "PetServlet?method="+method+"&pageIndex="+nextPageIndex; 
-	 %>
 	<%@ include file="header.jsp"%>
 	
 	<div class="page">
 	<div class="content">
 	<div class="content-search">
 		<div class="content-search-pane">
-			<form action="PetServlet?method=searchPets" method="post">
+			<form action="PetServlet?method=searchPets&pageIndex=1" method="post">
 				<a href="PetServlet?method=toInsertPet">ADD NEW</a>
 				<input type="text" name="keyword" value=${param.keyword} >
 				<input type="submit" value="SEARCH">
