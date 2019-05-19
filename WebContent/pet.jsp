@@ -10,6 +10,11 @@
 </head>
 
 <body>
+     <%
+     String path = request.getContextPath();
+     String picPath="/media/";
+     String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()+ path + picPath;
+	  %>
 	<%@ include file="header.jsp"%>
 	
 	<div class="content">
@@ -32,7 +37,7 @@
 	<div class="content-picshow">
 		<c:forEach items="${list}" var="item">
 			<a href="PetServlet?method=showPet&id=${item.id}" class="content-picshow-item">
-				<img src="img/monroe.jpg" alt="">
+				<img src="<%=basePath %>${item.pic}" alt="">
 				<div class="content-picshow-item-info">
 					<span>${item.name}&nbsp;|&nbsp;</span>
 					<span>${item.species}&nbsp;</span>

@@ -1,14 +1,25 @@
 package servlet;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.tomcat.util.http.fileupload.FileItem;
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
+import org.apache.tomcat.util.http.fileupload.RequestContext;
+import org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory;
+import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
+import org.apache.tomcat.util.http.fileupload.servlet.ServletRequestContext;
 
 import dao.OwnerDAO;
 import dao.PetDAO;
@@ -91,8 +102,8 @@ public class PetServlet extends HttpServlet {
 		request.setAttribute("message", message);
 		request.getRequestDispatcher("PetServlet?method=showPets&message="+message).forward(request, response);
 	}	
-	private void updatePet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Integer id = Integer.parseInt(request.getParameter("id"));
+	private void updatePet (HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Integer id=Integer.parseInt(request.getParameter("id"));
 		String name = request.getParameter("name");
 		String yy = request.getParameter("YY");
 		String mm = request.getParameter("MM");
@@ -101,21 +112,21 @@ public class PetServlet extends HttpServlet {
 		Integer speciesid = Integer.parseInt(request.getParameter("speciesid"));
 		Integer ownerid = Integer.parseInt(request.getParameter("ownerid"));
 		String pic = request.getParameter("pic");
-		System.out.println(id+" "+name+" "+bday+" "+speciesid+" "+ownerid);
 		
 		Pet pet = new Pet();
-		pet.setId(id);
 		pet.setName(name);
 		pet.setBday(bday);
 		pet.setSpeciesId(speciesid);
 		pet.setOwnerId(ownerid);
 		pet.setPic(pic);
+		pet.setId(id);
 		PetDAO dao = new PetDAO();
 		String message;
 		if(dao.updatePet(pet)) message = "Update successfully!";
-		else message = "Update failed!";
+		else message = "Update Failed!";
 		request.setAttribute("message", message);
 		request.getRequestDispatcher("PetServlet?method=showPets&message="+message).forward(request, response);
+		
 	}
 	private void deletePet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Integer id = Integer.parseInt(request.getParameter("id"));
@@ -154,5 +165,37 @@ public class PetServlet extends HttpServlet {
 		List<Pet> list = dao.searchPets(keyword);
 		request.setAttribute("list", list);
 		request.getRequestDispatcher("pet.jsp?keyword="+keyword).forward(request, response);
+	}
+	private void updatePic (HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		String fileName="";
+		Map<String, String> mp =new HashMap<String, String>();
+		request.setCharacterEncoding("utf-8");
+        DiskFileItemFactory factroy = new DiskFileItemFactory();
+        ServletFileUpload upload = new ServletFileUpload(factroy);
+        boolean isF = ServletFileUpload.isMultipartContent(request);
+        if (isF) {
+            //使用解析器解析上传的表单数据，每个FileItem对应一个表单项
+        	RequestContext context=new ServletRequestContext(request);
+            List<FileItem> fileItemList = upload.parseRequest(context);
+            for (FileItem fileItem : fileItemList) {
+                if (!fileItem.isFormField()) {
+                    //不是普通的表单项，即是上传的是文件
+                	
+                    fileName = fileItem.getName();
+                    String root=request.getServletContext().getRealPath("/media/");
+                    fileName =root+fileName;
+                    System.out.printf(fileName);
+                    File file = new File(fileName);
+                    fileItem.write(file);
+                    System.out.println("  导入成功");
+                } else {
+                    //获取表单中的非文件值
+                	mp.put(fileItem.getFieldName(), fileItem.getString("UTF-8"));
+                    System.out.println(fileItem.getFieldName());
+                    System.out.println(fileItem.getString("UTF-8"));
+                }
+            }
+        }
 	}
 }

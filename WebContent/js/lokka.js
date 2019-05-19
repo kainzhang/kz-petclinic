@@ -9,5 +9,3 @@ function sendUpdate(obj){
 	var path = type+"Servlet?method=update"+type+"&id="+id+"&name="+aimobj.value;
 	obj.href=path;
 }
-
-
