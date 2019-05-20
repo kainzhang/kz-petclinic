@@ -71,7 +71,7 @@ public class UserServlet extends HttpServlet {
 			session.setAttribute("authenticated_user", user);
 			response.sendRedirect("index.jsp");
 		} else {
-			request.setAttribute("message", "账号或密码错误，请重新输入<br>");
+			request.setAttribute("message", "Invalid username or password, enter again!<br>");
 			request.getRequestDispatcher("signin.jsp").forward(request, response);
 		}
 	}
@@ -87,7 +87,7 @@ public class UserServlet extends HttpServlet {
 		try {
 			if (dao.userExist(username)) {
 				flag = false;
-				request.setAttribute("message", "用户名已存在<br>");
+				request.setAttribute("message", "Username is already exist!<br>");
 				request.getRequestDispatcher("signup.jsp").forward(request, response);
 			} else {
 				user.setUsername(username);

@@ -127,4 +127,8 @@ public class VetDAO {
 		}
 		return 0;
 	}
+	public List<Vet> getAllVets(){
+		String stmt="select *  from vet;";
+		return getList(stmt);
+	}
 }

@@ -34,7 +34,7 @@
 			</form>
 		</div>
 	</div>
-	<span  class="content-message">
+	<span class="content-message">
 	<%
 	if(request.getAttribute("message")!= null)
 		out.print(request.getAttribute("message")+"<br>");

@@ -14,13 +14,12 @@ public class SpecialtyDAO {
 				" BEGIN;" +
                 " INSERT INTO specialty" +
                 " (ID, NAME)" +
-                " VALUES" +
-                " (null, '"+specialty.getName()+"');" +
+                " VALUES (null, '"+specialty.getName()+"');" +
                 " COMMIT;";
 		try {
 			Connect.exeUpdate(stmt);
 		} catch (SQLException e) {
-            System.out.print("Error occurred while INSERT Operation: " + e);
+			e.printStackTrace();
             return false;
 		}
 		return true;
@@ -35,7 +34,7 @@ public class SpecialtyDAO {
         try {
             Connect.exeUpdate(stmt);
         } catch (SQLException e) {
-            System.out.print("Error occurred while DELETE Operation: " + e);
+        	e.printStackTrace();
             return false;
         }
         return true;
@@ -51,10 +50,62 @@ public class SpecialtyDAO {
 		try {
 		    Connect.exeUpdate(stmt);
 		} catch (SQLException e) {
-		    System.out.print("Error occurred while UPDATE Operation: " + e);
+			e.printStackTrace();
 		    return false;
 		}
 		return true;
+	}
+	
+	public boolean insertVetSpecialty(Integer vetid, Integer specid) {
+		String stmt = 
+				" BEGIN;" +
+				" INSERT INTO vet_spec" +
+				" (vetid, specid)" +
+				" VALUES ("+vetid+", "+specid+");" +
+				" COMMIT; ";
+		try {
+			Connect.exeUpdate(stmt);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+	
+	public boolean isExist (String name) {
+		String stmt = " SELECT FROM specialty WHERE name = "+name+";";
+		try {
+			ResultSet rs;
+			rs=Connect.exeQuery(stmt);
+			if(rs.next()) return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	public boolean deleteVetSpecialty(Integer vetid, Integer specid) {
+		String stmt = 
+				" BEGIN;" +
+				" DELETE FROM vet_spec" +
+				" WHERE vetid="+vetid+" and specid="+specid+";" +
+				" COMMIT; ";
+		try {
+			Connect.exeUpdate(stmt);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+	
+	public List<Specialty> getVetSpecialties(Integer vetid) {
+		String stmt = 
+				" SELECT s.id AS id, s.name AS name " +
+				" FROM specialty AS s, vet_spec AS vs " +
+				" WHERE vs.vetid = "+vetid+" " +
+				" AND vs.specid = s.id ;";
+		return getList(stmt);
 	}
 	
 	private List<Specialty> getList(String stmt) {
@@ -63,10 +114,10 @@ public class SpecialtyDAO {
 		try {
 			rs = Connect.exeQuery(stmt);
 			while(rs.next()) {
-				Specialty specialty = new Specialty();
-				specialty.setId(rs.getInt("ID"));
-				specialty.setName(rs.getString("NAME"));
-				list.add(specialty);
+				Specialty spec = new Specialty();
+				spec.setId(rs.getInt("ID"));
+				spec.setName(rs.getString("NAME"));
+				list.add(spec);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

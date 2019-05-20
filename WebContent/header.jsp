@@ -6,6 +6,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<link rel="stylesheet/less" type="text/css" href="css/styles.less" />
+	<link rel="stylesheet" type="text/css" href="css/popupwindow.css" />
 	<script>
 		less = {
 		  env: "development",
@@ -18,9 +19,6 @@
 		  rootpath: ":/a.com/"
 		};
 	</script>
-	<script type="text/javascript" src="js/less.min.js" ></script>
-	<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
-	<script type="text/javascript" src="js/lokka.js"></script>
 </head>
 <header>
     <a id="logo" href="index.jsp">LOKKA</a>
@@ -32,6 +30,7 @@
                 <li><a href="SpecialtyServlet?method=showSpecialties">Check Specialties</a></li> 
                 <li><a href="OwnerServlet?method=showOwners&pageIndex=1">Check Customers</a></li>
                 <li><a href="PetServlet?method=showPets&pageIndex=1">Check Pets</a></li>
+                <li><a href="RecordServlet?method=showRecords&pageIndex=1">Check Records</a></li>
             </ul> 
 		</li>
         <li class="nav-item"><a class="fc-item" href="#">COMMUNITY</a></li> 
@@ -54,4 +53,7 @@
 	    	}
 	    %>
     </div>
+    <script type="text/javascript" src="js/less.min.js" ></script>
+	<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="js/lokka.js"></script>
 </header>

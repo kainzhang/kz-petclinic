@@ -79,7 +79,7 @@
 		<tr>
 			<td><span>Species</span></td>
 			<td colspan="3">
-				<select class="select-m" name="speciesid">
+			<select class="select-m" name="speciesid">
 				<% if(flag==0){ %>
 				<option value='<%=pet.getSpeciesId()%>' selected style='display:none;'><%=pet.getSpecies()%></option>
 				<% } %>

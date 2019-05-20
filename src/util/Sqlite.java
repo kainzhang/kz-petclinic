@@ -103,9 +103,16 @@ public class Sqlite
               + "FOREIGN KEY(SPECIESID) REFERENCES SPECIES(ID),"
               + "FOREIGN KEY(OWNERID) REFERENCES OWNER(ID) );";
 
-      
+      String sql55 = "CREATE TABLE record " +
+              "(id  INTEGER  PRIMARY KEY AUTOINCREMENT," +
+              " petid          INTEGER    NOT NULL," +
+              " vetid          INTEGER    NOT NULL," +
+              " date            TEXT    NOT NULL," +
+              " descr           TEXT    NOT NULL," 
+              + "FOREIGN KEY(petID) REFERENCES pet(ID),"
+ 			  + " FOREIGN KEY(vetID) REFERENCES vet(ID));";
       String name ="name";
-      stmt.executeUpdate(sql24);
+      stmt.executeUpdate(sql55);
 //      for(int i=0;i<10;i++) {
 //    	  String sql81="INSERT INTO vet VALUES(null,"+i+" );";
 //    	  stmt.executeUpdate(sql81);

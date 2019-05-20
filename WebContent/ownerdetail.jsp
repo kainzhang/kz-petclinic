@@ -80,6 +80,18 @@
                     <input type="text" name="addr" <% if(flag==0){ %>value="<%=owner.getAddr()%>"<% } %>>
             </td>
 		</tr>
+		<%if(flag==0){ %>
+		<tr>
+			<td><span>Pets</span></td>
+			<td colspan="3"  style="text-align:left;">
+                <c:forEach items="${ppList}" var="pItem">
+                	<a href="PetServlet?method=showPet&id=${pItem.getId()}"> ${pItem.getName()}</a>
+				</c:forEach>
+            </td>
+		</tr>
+			
+		<% }%>
+
 		<tr>
 			<td></td>
 			<td>
@@ -87,7 +99,7 @@
 				<a href="OwnerServlet?method=deleteOwner&id=<%=owner.getId()%>">DELETE</a>
 			<% } %>
 			</td>
-			<td >
+			<td>
 				<a href="javascript:history.go(-1);">BACK</a>
 			</td>
 			<td colspan="2">

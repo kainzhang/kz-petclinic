@@ -21,7 +21,6 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Update Pet</title>
-	<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
 	<link rel="stylesheet" href="css/jquery.Jcrop.css" type="text/css" />
 	<link rel="stylesheet" href="css/cropPic.css" type="text/css" />
     <style type="text/css">
@@ -68,15 +67,32 @@
 				<input type="text" name="name" <% if(flag==0){ %> value="<%=vet.getName()%>" <% } %>>
 			</td>
 		</tr>
-		<tr>
-			<td></td>
-			<td>
-			<% if(flag==0){ %>
-				<a href="VetServlet?method=deleteVet&id=<%=vet.getId()%>">DELETE</a>
-			<% } %>
+		<tr>  
+		<% if(flag==0){ %>
+			<td><span>Specialty</span></td>
+			<td colspan="3">
+				<ul class="common-list">
+				<c:forEach items="${splist}" var="item">
+					<li>
+						<span>${item.name}</span>
+						<a href="VetServlet?method=deleteVetSpecialty&vetid=<%=vet.getId()%>&specid=${item.id}">Del</a>
+					</li>
+				</c:forEach>
+				</ul>
 			</td>
+		<% } %>
+		</tr>
+		<tr>
+			<% if(flag==0){ %>
+			<td>
+				<a href="VetServlet?method=deleteVet&id=<%=vet.getId()%>">Delete Vet</a>
+			</td>
+			<td align="center">
+				<label for="link1-trigger" class="modal-link">Add Specialty</label>
+			</td>
+			<% } %>
 			<td >
-				<a href="javascript:history.go(-1);">BACK</a>
+				<a href="VetServlet?method=showVets&pageIndex=1">BACK</a>
 			</td>
 			<td colspan="2">
                 <input type="text" name="pic" style="display:none;" value="<%=picPath%>" id="pic">
@@ -84,11 +100,49 @@
 			</td>
 		</tr>
 		</table>
+		
 	</div>
 	</form>
 	</div>
+	
+	<div class="modal">
+		<input type="checkbox" id="link1-trigger" class="check">
+		<div id="link1" class="container">
+			<div class="content">
+	            <div class="modal-body">
+	            	<h2>UPDATE</h2>
+	            	<p><label for="link1-trigger" class="modal-link">CLOSE</label></p>
+	                <p><!--SPACER-->&nbsp;<!--SPACER--></p>
+	                
+	                <select id="aim">
+					<c:forEach items="${splist2}" var="item2">
+						<option value ="${item2.id }">${item2.name }</option>
+					</c:forEach>
+					
+					</select>
+	                
+	                <p><!--SPACER-->&nbsp;<!--SPACER--></p>
+	                <p><!--SPACER-->&nbsp;<!--SPACER--></p>
+	                <a href="" id="popup-btn" onclick="sendUpdate(this)" >CONFIRM</a>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	
+	
+	
 	<%@ include file="footer.jsp" %>
+	<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
 	<script type="text/javascript" src="js/jquery.Jcrop.js"></script>
     <script type="text/javascript" src="js/cropPic.js"></script>
+    <% if(flag==0){ %>
+    <script type="text/javascript">
+	    function sendUpdate(obj){
+	    	var aimobj = document.getElementById("aim");
+	    	var path = "VetServlet?method=insertVetSpecialty&vetid="+<%=vet.getId()%>+"&specid="+aimobj.value;
+	    	obj.href=path;
+	    }
+    </script>
+    <% } %>
 </body>
 </html>

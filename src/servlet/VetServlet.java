@@ -19,9 +19,9 @@ import org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory;
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 import org.apache.tomcat.util.http.fileupload.servlet.ServletRequestContext;
 
-
+import dao.SpecialtyDAO;
 import dao.VetDAO;
-
+import model.Specialty;
 import model.Vet;
 
 /**
@@ -68,9 +68,21 @@ public class VetServlet extends HttpServlet {
         }
 	}
 	
-	private void toInsertVet  (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//	private void showVet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//		VetDAO dao = new VetDAO();
+//		Integer id = Integer.parseInt(request.getParameter("id"));
+//		request.setAttribute("aimVet", dao.getVet(id));
+//		
 //		SpecialtyDAO sdao = new SpecialtyDAO();
-//		request.setAttribute("splist", sdao.getSpecialties());
+//		request.setAttribute("splist", sdao.getVetSpecialties(id));
+//		request.setAttribute("splist2", sdao.getSpecialties());
+//		request.setAttribute("flag", 0);
+//		request.getRequestDispatcher("vetdetail.jsp").forward(request, response);
+//	}
+	
+	private void toInsertVet  (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		SpecialtyDAO sdao = new SpecialtyDAO();
+		request.setAttribute("splist2", sdao.getSpecialties());
 		
 		request.setAttribute("flag", 1);
 		request.getRequestDispatcher("vetdetail.jsp").forward(request, response);
@@ -89,6 +101,30 @@ public class VetServlet extends HttpServlet {
 		else message = "Insert failed!";
 		request.setAttribute("message", message);
 		request.getRequestDispatcher("VetServlet?method=showVets&pageIndex=1&message="+message).forward(request, response);
+	}
+	
+	private void insertVetSpecialty (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Integer vetid = Integer.parseInt(request.getParameter("vetid"));
+		Integer specid = Integer.parseInt(request.getParameter("specid"));
+		
+		SpecialtyDAO dao = new SpecialtyDAO();
+		String message;
+		if(dao.insertVetSpecialty(vetid, specid)) message = "Insert successful!";
+		else message =  "Insert failed!";
+		request.setAttribute("message", message);
+		request.getRequestDispatcher("VetServlet?method=showVet&id="+vetid).forward(request, response);
+	}                 
+	
+	private void deleteVetSpecialty (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Integer vetid = Integer.parseInt(request.getParameter("vetid"));
+		Integer specid = Integer.parseInt(request.getParameter("specid"));
+		System.out.println(vetid+" "+specid);
+		SpecialtyDAO dao = new SpecialtyDAO();
+		String message;
+		if(dao.deleteVetSpecialty(vetid, specid)) message = "Insert successful!";
+		else message =  "Insert failed!";
+		request.setAttribute("message", message);
+		request.getRequestDispatcher("VetServlet?method=showVet&id="+vetid).forward(request, response);
 	}
 	
 	private void updateVet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -123,8 +159,9 @@ public class VetServlet extends HttpServlet {
 		Integer id = Integer.parseInt(request.getParameter("id"));
 		request.setAttribute("aimVet", dao.getVet(id));
 		
-//		SpecialtyDAO sdao = new SpecialtyDAO();
-//		request.setAttribute("splist", sdao.getSpecialties());
+		SpecialtyDAO sdao = new SpecialtyDAO();
+		request.setAttribute("splist", sdao.getVetSpecialties(id));
+		request.setAttribute("splist2", sdao.getSpecialties());
 		request.setAttribute("flag", 0);
 		request.getRequestDispatcher("vetdetail.jsp").forward(request, response);
 	}

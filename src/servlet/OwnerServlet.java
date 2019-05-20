@@ -23,9 +23,11 @@ import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 import org.apache.tomcat.util.http.fileupload.servlet.ServletRequestContext;
 
 import dao.OwnerDAO;
+import dao.PetDAO;
 import dao.OwnerDAO;
 import dao.UserDAO;
 import model.Owner;
+import model.Pet;
 import model.User;
 
 /**
@@ -53,7 +55,7 @@ public class OwnerServlet extends HttpServlet {
             method = getClass().getDeclaredMethod(methodName, HttpServletRequest.class, HttpServletResponse.class);
             method.invoke(this, request, response);
         } catch (Exception e) {
-            throw new RuntimeException("Wrong Method！");
+            throw new RuntimeException("Wrong Method!");
         } 
 	}
 	
@@ -68,7 +70,7 @@ public class OwnerServlet extends HttpServlet {
             method = getClass().getDeclaredMethod(methodName, HttpServletRequest.class, HttpServletResponse.class);
             method.invoke(this, request, response);
         } catch (Exception e) {
-            throw new RuntimeException("Wrong Method！");
+            throw new RuntimeException("Wrong Method!");
         }
 	}
 	
@@ -94,7 +96,7 @@ public class OwnerServlet extends HttpServlet {
 		if(dao.insertOwner(owner)) message = "Insert successfully!";
 		else message = "Insert Failed!";
 		request.setAttribute("message", message);
-		request.getRequestDispatcher("OwnerServlet?method=showOwners&pageIndex=1&message="+message).forward(request, response);
+		request.getRequestDispatcher("OwnerServlet?method=showOwners&pageIndex=1").forward(request, response);
 	}	
 	private void updateOwner (HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Integer id=Integer.parseInt(request.getParameter("id"));
@@ -114,7 +116,7 @@ public class OwnerServlet extends HttpServlet {
 		if(dao.updateOwner(owner)) message = "Update successfully!";
 		else message = "Update Failed!";
 		request.setAttribute("message", message);
-		request.getRequestDispatcher("OwnerServlet?method=showOwners&pageIndex=1&message="+message).forward(request, response);
+		request.getRequestDispatcher("OwnerServlet?method=showOwners&pageIndex=1").forward(request, response);
 		
 	}
 	private void deleteOwner (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -125,14 +127,16 @@ public class OwnerServlet extends HttpServlet {
 		else message = "Delete failed!";
 		request.setCharacterEncoding("UTF-8");
 		request.setAttribute("message", message);
-		request.getRequestDispatcher("OwnerServlet?method=showOwners&pageIndex=1&message="+message).forward(request, response);
+		request.getRequestDispatcher("OwnerServlet?method=showOwners&pageIndex=1").forward(request, response);
 	}
 	
 	private void showOwner (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		OwnerDAO dao = new OwnerDAO();
 		Integer id = Integer.parseInt(request.getParameter("id"));
 		request.setAttribute("aimOwner", dao.getOwner(id));
-		
+		PetDAO petd=new PetDAO();
+		List<Pet> pList=petd.getOwnerPets(id);
+		request.setAttribute("ppList", pList);
 		request.setAttribute("flag", 0);
 		request.getRequestDispatcher("ownerdetail.jsp").forward(request, response);
 	}
@@ -169,21 +173,17 @@ public class OwnerServlet extends HttpServlet {
         ServletFileUpload upload = new ServletFileUpload(factroy);
         boolean isF = ServletFileUpload.isMultipartContent(request);
         if (isF) {
-            //使用解析器解析上传的表单数据，每个FileItem对应一个表单项
         	RequestContext context=new ServletRequestContext(request);
             List<FileItem> fileItemList = upload.parseRequest(context);
             for (FileItem fileItem : fileItemList) {
                 if (!fileItem.isFormField()) {
-                    //不是普通的表单项，即上传的是文件
                     fileName = fileItem.getName();
                     String root=request.getServletContext().getRealPath("/media/");
                     fileName =root+fileName;
                     System.out.printf(fileName);
                     File file = new File(fileName);
                     fileItem.write(file);
-                    System.out.println("  导入成功");
                 } else {
-                    //获取表单中的非文件值
                 	mp.put(fileItem.getFieldName(), fileItem.getString("UTF-8"));
                     System.out.println(fileItem.getFieldName());
                     System.out.println(fileItem.getString("UTF-8"));
