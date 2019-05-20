@@ -131,4 +131,21 @@ public class VetDAO {
 		String stmt="select *  from vet;";
 		return getList(stmt);
 	}
+	
+	public List<Vet> getVetsBySpecid(int Specid, Integer start, Integer end){
+		String stmt="select * from vet where id in (select vetid from vet_spec where specid="+Specid+") ORDER BY ID LIMIT "+start+", "+end+" ;";
+		return getList(stmt);
+	}
+	
+	public Integer getResultAmountBySpecid(int Specid) {
+		String stmt = 
+				" select COUNT(*) as totalcount from vet where id in (select vetid from vet_spec where specid="+Specid+");";
+		try {
+			ResultSet rs = Connect.exeQuery(stmt);
+			if(rs.next()) return rs.getInt("totalcount");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
 }

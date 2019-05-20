@@ -105,29 +105,31 @@
 	</form>
 	</div>
 	
+	
 	<div class="modal">
-		<input type="checkbox" id="link1-trigger" class="check">
-		<div id="link1" class="container">
-			<div class="content">
-	            <div class="modal-body">
-	            	<h2>UPDATE</h2>
-	            	<p><label for="link1-trigger" class="modal-link">CLOSE</label></p>
-	                <p><!--SPACER-->&nbsp;<!--SPACER--></p>
-	                
-	                <select id="aim">
+	<input type="checkbox" id="link1-trigger" class="check">
+	<div id="link1" class="container">
+		<div class="content">
+			<h2>UPDATE
+           		<p class="modal-exit"><label for="link1-trigger" class="modal-link">
+           			<img src="img/exit-1.png">
+           		</label></p>
+           	</h2>
+            <div class="modal-body">
+                <p class="popup-hint">Note: Please select the new specialty below.</p>
+                 <select id="aim">
 					<c:forEach items="${splist2}" var="item2">
 						<option value ="${item2.id }">${item2.name }</option>
 					</c:forEach>
 					
 					</select>
-	                
-	                <p><!--SPACER-->&nbsp;<!--SPACER--></p>
-	                <p><!--SPACER-->&nbsp;<!--SPACER--></p>
-	                <a href="" id="popup-btn" onclick="sendUpdate(this)" >CONFIRM</a>
-	            </div>
-	        </div>
-	    </div>
+                <a href="" id="popup-btn" onclick="sendUpdate(this)" >Confirm</a>
+            </div>
+        </div>
+    </div>
 	</div>
+	
+	
 	
 	
 	

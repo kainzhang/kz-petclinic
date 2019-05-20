@@ -63,8 +63,8 @@ public class SpecialtyServlet extends HttpServlet {
 		spec.setName(name);
 		SpecialtyDAO dao = new SpecialtyDAO();
 		String message;
-		if(dao.insertSpecialty(spec)) message = "Ìí¼Ó³É¹¦£¡";
-		else message = "Ìí¼ÓÊ§°Ü£¡";
+		if(dao.insertSpecialty(spec)) message = "Insert successful!";
+		else message = "Insert failed";
 		request.setAttribute("message", message);
 		request.getRequestDispatcher("SpecialtyServlet?method=showSpecialties&message="+message).forward(request, response);
 	}
@@ -73,8 +73,8 @@ public class SpecialtyServlet extends HttpServlet {
 		Integer id = Integer.parseInt(request.getParameter("id"));
 		SpecialtyDAO dao = new SpecialtyDAO();
 		String message;
-		if(dao.deleteSpecialty(id)) message = "É¾³ý³É¹¦£¡";
-		else message = "É¾³ýÊ§°Ü£¡";
+		if(dao.deleteSpecialty(id)) message = "Delete successful!";
+		else message = "Insert failed!";
 		request.setCharacterEncoding("UTF-8");
 		request.setAttribute("message", message);
 		request.getRequestDispatcher("SpecialtyServlet?method=showSpecialties&message="+message).forward(request, response);
@@ -88,8 +88,8 @@ public class SpecialtyServlet extends HttpServlet {
 		spec.setName(name);
 		SpecialtyDAO dao = new SpecialtyDAO();
 		String message;
-		if(dao.updateSpecialty(spec)) message = "ÐÞ¸Ä³É¹¦£¡";
-		else message = "ÐÞ¸ÄÊ§°Ü£¡";
+		if(dao.updateSpecialty(spec)) message = "Update successful!";
+		else message = "Update failed!";
 		request.setAttribute("message", message);
 		request.getRequestDispatcher("SpecialtyServlet?method=showSpecialties&message="+message).forward(request, response);
 	}

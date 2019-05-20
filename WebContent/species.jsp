@@ -6,6 +6,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" type="text/css" href="css/popupwindow.css" />
 	<title>SPECIES</title>
 </head>
 <body>
@@ -13,28 +14,32 @@
 	
 	<div class="page">
 	<div class="content">
-	<div id="species-search">
+	<div id="species-search"  class="content-search">
+		<div class="content-search-pane">
 		<form action="SpeciesServlet?method=searchSpecies" method="post">
-			<label>Keyword：</label>
 			<input type="text" name="keyword" value=${param.keyword}>
-			<input type="submit" value="查询">
+			<input type="submit" value="Search">
+		</form>
+		</div>
+	</div>
+	
+	<div id="species-insert"  class="content-insert">
+	<div class="content-insert-pane">
+		<form action="SpeciesServlet?method=insertSpecies" method="post">
+			<input type="text" name="name">
+			<input type="submit" value="Insert">
 		</form>
 	</div>
-	<div id=species-message>
+	</div>
+	
+	<div id="species-message"  class="content-message">
 		<%
 		if(request.getAttribute("message")!= null)
 			out.print(request.getAttribute("message")+"<br>");
 		%>
 	</div>
 	
-	<div id="species-insert">
-		<form action="SpeciesServlet?method=insertSpecies" method="post">
-			<label>New Species;</label>
-			<input type="text" name="name">
-			<input type="submit" value="添加">
-		</form>
-	</div>
-	<div id="species-show">
+	<div id="species-show"  class="content-table">
 	<table id="hor-minimalist-b">
     <thead>
     	<tr>
@@ -62,8 +67,35 @@
 	</div>
 	</div>
 	
-	<%--<%@ include file="popup.jsp" %> --%>
+	<div class="modal">
+	<input type="checkbox" id="link1-trigger" class="check">
+	<div id="link1" class="container">
+		<div class="content">
+			<h2>UPDATE
+           		<p class="modal-exit"><label for="link1-trigger" class="modal-link">
+           			<img src="img/exit-1.png">
+           		</label></p>
+           	</h2>
+            <div class="modal-body">
+                <p class="popup-hint">Note: Please enter the new name below.</p>
+                <input type="text" id="aim">
+                <a href="" id="popup-btn" onclick="sendUpdate(this)" >Confirm</a>
+            </div>
+        </div>
+    </div>
+	</div>
 	
 	<%@ include file="footer.jsp" %>
+	<script>
+	var id = 0;
+	function setInfo(obj){
+		id=obj.getAttribute("title");
+	}
+	function sendUpdate(obj){
+		var aimobj = document.getElementById("aim");
+		var path = type+"SpeciesServlet?method=updateSpecies&id="+id+"&name="+aimobj.value;
+		obj.href=path;
+	}
+	</script>
 </body>
 </html></html>

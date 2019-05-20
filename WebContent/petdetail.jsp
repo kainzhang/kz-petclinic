@@ -134,10 +134,14 @@
 			</td>
 		</tr>
 		<tr>
-			<td></td>
 			<td>
 			<% if(flag==0){ %>
-				<a href="PetServlet?method=deletePet&id=<%=pet.getId()%>">DELETE</a>
+				<a href="RecordServlet?method=searchRecord&keyword=<%=pet.getName() %>">Record</a>
+			<% } %>
+			</td>
+			<td>
+			<% if(flag==0){ %>
+				<a href="PetServlet?method=deletePet&id=<%=pet.getId()%>">Delete</a>
 			<% } %>
 			</td>
 			<td >

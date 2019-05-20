@@ -84,9 +84,11 @@
 		<tr>
 			<td><span>Pets</span></td>
 			<td colspan="3"  style="text-align:left;">
-                <c:forEach items="${ppList}" var="pItem">
+				<div id="owner-pet">
+					<c:forEach items="${ppList}" var="pItem">
                 	<a href="PetServlet?method=showPet&id=${pItem.getId()}"> ${pItem.getName()}</a>
-				</c:forEach>
+					</c:forEach>
+				</div>
             </td>
 		</tr>
 			

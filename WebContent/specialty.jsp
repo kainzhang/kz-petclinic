@@ -6,6 +6,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" type="text/css" href="css/popupwindow.css" />
 	<title>SPECIALTY</title>
 </head>
 <body>
@@ -39,7 +40,7 @@
 	
 	
 	
-	<div id="specialty-show">
+	<div id="specialty-show" class="content-table">
 	<table id="hor-minimalist-b">
     <thead>
     	<tr>
@@ -52,7 +53,7 @@
 		<c:forEach items="${list}" var="item">
 		<tr>
 			<td>${item.id }</td>
-			<td>${item.name }</td>
+			<td><a href="VetServlet?method=searchVetsBySpecid&keyword=${item.id }&name=${item.name}">${item.name }</a></td>
 			<td>
 				<label class="modal-link" for="link1-trigger" title="${item.id}" onclick="setInfo(this)">Edit</label>
 				<span>&nbsp;|&nbsp;</span>
@@ -64,24 +65,25 @@
 	</table>
 	</div>
 	
+	</div>
+	</div>
+	
 	<div class="modal">
 	<input type="checkbox" id="link1-trigger" class="check">
 	<div id="link1" class="container">
 		<div class="content">
+			<h2>UPDATE
+           		<p class="modal-exit"><label for="link1-trigger" class="modal-link">
+           			<img src="img/exit-1.png">
+           		</label></p>
+           	</h2>
             <div class="modal-body">
-            	<h2>UPDATE</h2>
-            	 <p><label for="link1-trigger" class="modal-link">CLOSE</label></p>
-                <p><!--SPACER-->&nbsp;<!--SPACER--></p>
+                <p class="popup-hint">Note: Please enter the new name below.</p>
                 <input type="text" id="aim">
-                <p><!--SPACER-->&nbsp;<!--SPACER--></p>
-                <p><!--SPACER-->&nbsp;<!--SPACER--></p>
-                <a href="" id="popup-btn" onclick="sendUpdate(this)" >确定</a>
+                <a href="" id="popup-btn" onclick="sendUpdate(this)" >Confirm</a>
             </div>
         </div>
     </div>
-	</div>
-	
-	</div>
 	</div>
 
 	 <script type="text/javascript" src="js/lokka.js"></script>

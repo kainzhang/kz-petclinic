@@ -68,18 +68,6 @@ public class VetServlet extends HttpServlet {
         }
 	}
 	
-//	private void showVet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		VetDAO dao = new VetDAO();
-//		Integer id = Integer.parseInt(request.getParameter("id"));
-//		request.setAttribute("aimVet", dao.getVet(id));
-//		
-//		SpecialtyDAO sdao = new SpecialtyDAO();
-//		request.setAttribute("splist", sdao.getVetSpecialties(id));
-//		request.setAttribute("splist2", sdao.getSpecialties());
-//		request.setAttribute("flag", 0);
-//		request.getRequestDispatcher("vetdetail.jsp").forward(request, response);
-//	}
-	
 	private void toInsertVet  (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		SpecialtyDAO sdao = new SpecialtyDAO();
 		request.setAttribute("splist2", sdao.getSpecialties());
@@ -190,6 +178,20 @@ public class VetServlet extends HttpServlet {
 		request.getRequestDispatcher("vet.jsp?keyword="+keyword+"&pageIndex="+pageIndex).forward(request, response);
 	}
 	
+	private void searchVetsBySpecid (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		VetDAO dao = new VetDAO();
+		Integer pageIndex =1;
+		Integer specId = Integer.parseInt(request.getParameter("keyword"));
+		String nam=request.getParameter("name");
+		Integer maxPageIndex = (dao.getResultAmountBySpecid(specId)+17)/18;
+		List<Vet> list = dao.getVetsBySpecid(specId, (pageIndex-1)*18, pageIndex*18);
+		request.setAttribute("maxPageIndex", maxPageIndex);
+		request.setAttribute("method", "searchVets");
+		request.setAttribute("list", list);
+		request.getRequestDispatcher("vet.jsp?keyword="+nam+"&pageIndex="+pageIndex).forward(request, response);
+	}
+
+	
 	private void updatePic (HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String fileName="";
 		Map<String, String> mp =new HashMap<String, String>();
@@ -207,10 +209,8 @@ public class VetServlet extends HttpServlet {
                     fileName = fileItem.getName();
                     String root=request.getServletContext().getRealPath("/media/");
                     fileName =root+fileName;
-                    System.out.printf(fileName);
                     File file = new File(fileName);
                     fileItem.write(file);
-                    System.out.println("  导入成功");
                 } else {
                     //获取表单中的非文件值
                 	mp.put(fileItem.getFieldName(), fileItem.getString("UTF-8"));

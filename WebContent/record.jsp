@@ -20,6 +20,29 @@
 			</form>
 		</div>
 	</div>
+	
+	<div id="record-insert" class="content-insert">
+		<div class="content-insert-pane">
+		<form action="RecordServlet?method=insertRecord" method="post">
+			<label>Pet:</label>
+			<select class="select-s" name="petid">
+				<c:forEach items="${pl}" var="item">
+					<option value ="${item.id }">${item.name }</option>
+				</c:forEach>
+			</select>
+			<label>Vet:</label>
+			<select class="select-s" name="vetid" >
+				<c:forEach items="${vl}" var="item2">
+					<option value ="${item2.id }">${item2.name }</option>
+				</c:forEach>
+			</select>
+			<label>Descr:</label>
+			<input type="text" name="descr">
+			<input type="submit" value="添加">
+		</form>
+		</div>
+	</div>
+	
 	<span id="record-message" class="content-message">
 		<%
 		if(request.getAttribute("message")!= null)
@@ -27,23 +50,7 @@
 		%>
 	</span>
 	
-	<div id="record-insert" >
-		<form action="RecordServlet?method=insertRecord" method="post">
-			<select class="select-m" name="petid">
-				<c:forEach items="${pl}" var="item">
-					<option value ="${item.id }">${item.name }</option>
-				</c:forEach>
-			</select>
-			<select class="select-m" name="vetid" >
-				<c:forEach items="${vl}" var="item2">
-					<option value ="${item2.id }">${item2.name }</option>
-				</c:forEach>
-			</select>
-			描述：<input type="text" name="descr">
-			<input type="submit" value="添加">
-		</form>
-	</div>
-	<div id="record-show">
+	<div id="record-show" class="content-table">
 		<table id="hor-minimalist-b">
 		<thead>
 			<tr>
@@ -58,8 +65,8 @@
 			<c:forEach items="${list}" var="item">
 				<tr>
 					<td>${item.id }</td>
-					<td>${item.petname }</td>
-					<td>${item.vetname }</td>
+					<td><a href="PetServlet?method=showPet&id=${item.petid}">${item.petname}</a></td>
+					<td><a href="VetServlet?method=showVet&id=${item.vetid}">${item.vetname}</a></td>
 					<td>${item.date }</td>
 					<td>${item.descr }</td>
 					<td><a href="RecordServlet?method=deleteRecord&id=${item.id}">删除</a></td>

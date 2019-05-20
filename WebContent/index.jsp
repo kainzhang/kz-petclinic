@@ -26,7 +26,7 @@
 				<p>&nbsp;&nbsp;&nbsp;&nbsp;Ace Vets</p>
 			</div>
 		</a>
-		<a href="OwnerServlet?method=showOwners" id="index-content-img-3">
+		<a href="OwnerServlet?method=showOwners&pageIndex=1" id="index-content-img-3">
 			<div id="index-content-img-title">
 				<p>Loyal VIP</p>
 				<p>&nbsp;&nbsp;Customers</p>
