@@ -11,7 +11,10 @@
 </head>
 <body>
 	<%@ include file="header.jsp"%>
-	
+	<%
+		if(user == null)
+			response.sendRedirect("signin.jsp");
+	%>
 	<div class="page">
 	<div class="content">
 	<div id="species-search"  class="content-search">

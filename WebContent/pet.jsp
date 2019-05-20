@@ -22,7 +22,10 @@
 </head>
 <body>
 	<%@ include file="header.jsp"%>
-	
+	<%
+    	if(user == null)
+    		response.sendRedirect("signin.jsp");
+    %>
 	<div class="page">
 	<div class="content">
 	<div class="content-search">
