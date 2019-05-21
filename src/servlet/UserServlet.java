@@ -32,7 +32,6 @@ public class UserServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
 		Method method = null;
         String methodName = request.getParameter("method");
         try {
@@ -49,12 +48,11 @@ public class UserServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Method method = null;
         String methodName = request.getParameter("method");
-        System.out.println(methodName);
         try {
             method = getClass().getDeclaredMethod(methodName, HttpServletRequest.class, HttpServletResponse.class);
             method.invoke(this, request, response);
         } catch (Exception e) {
-            throw new RuntimeException("调用方法出错！");
+            throw new RuntimeException("Wrong Method!");
         }
 	}
 	
@@ -62,7 +60,6 @@ public class UserServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-		System.out.println("# LoginAttempt， Username："+username+", Password："+password);
 		HttpSession session = request.getSession(); 
 				
 		UserDAO dao = new UserDAO();
@@ -79,8 +76,7 @@ public class UserServlet extends HttpServlet {
 	private void signUp(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-		//String confpass = request.getParameter("confpass");
-		HttpSession session = request.getSession(); 
+		String confpass = request.getParameter("confpass");
 		User user = new User();
 		boolean flag = true;
 		UserDAO dao = new UserDAO();
@@ -88,6 +84,10 @@ public class UserServlet extends HttpServlet {
 			if (dao.userExist(username)) {
 				flag = false;
 				request.setAttribute("message", "Username is already exist!<br>");
+				request.getRequestDispatcher("signup.jsp").forward(request, response);
+			} else if(!password.equals(confpass)) {
+				flag = false;
+				request.setAttribute("message", "Two passwords don't match!<br>");
 				request.getRequestDispatcher("signup.jsp").forward(request, response);
 			} else {
 				user.setUsername(username);
@@ -101,6 +101,7 @@ public class UserServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		if(flag) {
+			HttpSession session = request.getSession(); 
 			session.setAttribute("authenticated_user", user);
 			response.sendRedirect("index.jsp");
 		}

@@ -20,7 +20,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Update Pet</title>
+	<title>Vet Detail</title>
 	<link rel="stylesheet" href="css/jquery.Jcrop.css" type="text/css" />
 	<link rel="stylesheet" href="css/cropPic.css" type="text/css" />
     <style type="text/css">
@@ -100,17 +100,15 @@
 			</td>
 		</tr>
 		</table>
-		
 	</div>
 	</form>
 	</div>
-	
 	
 	<div class="modal">
 	<input type="checkbox" id="link1-trigger" class="check">
 	<div id="link1" class="container">
 		<div class="content">
-			<h2>Vet Detail
+			<h2>Update
            		<p class="modal-exit"><label for="link1-trigger" class="modal-link">
            			<img src="img/exit-1.png">
            		</label></p>
@@ -128,10 +126,6 @@
         </div>
     </div>
 	</div>
-	
-	
-	
-	
 	
 	<%@ include file="footer.jsp" %>
 	<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>

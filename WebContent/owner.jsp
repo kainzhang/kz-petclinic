@@ -1,33 +1,34 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" import="model.Owner,java.util.List"
 pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%
+	String path = request.getContextPath();
+	String picPath="/media/";
+	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()+ path + picPath;
+	 
+	String method = (String) request.getAttribute("method");
+	Integer maxPageIndex = (Integer) request.getAttribute("maxPageIndex");
+	Integer pageIndex = Integer.parseInt(request.getParameter("pageIndex"));
+	Integer prevPageIndex = pageIndex - 1;
+	Integer nextPageIndex = pageIndex + 1;
+	String prevPage = "OwnerServlet?method="+method+"&pageIndex="+prevPageIndex;
+	String nextPage = "OwnerServlet?method="+method+"&pageIndex="+nextPageIndex; 
+%>
+
 <!DOCTYPE html>
 <html>
-
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>OWNER</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>OWNER</title>
 </head>
 
 <body>
- <%
- String path = request.getContextPath();
- String picPath="/media/";
- String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()+ path + picPath;
- 
- String method = (String) request.getAttribute("method");
- Integer maxPageIndex = (Integer) request.getAttribute("maxPageIndex");
- Integer pageIndex = Integer.parseInt(request.getParameter("pageIndex"));
- Integer prevPageIndex = pageIndex - 1;
- Integer nextPageIndex = pageIndex + 1;
- String prevPage = "OwnerServlet?method="+method+"&pageIndex="+prevPageIndex;
- String nextPage = "OwnerServlet?method="+method+"&pageIndex="+nextPageIndex; 
- %>
 <%@ include file="header.jsp"%>
 <%
 	if(user == null)
 		response.sendRedirect("signin.jsp");
 %>
+
 <div class="page">
 <div class="content">
 <div class="content-search">
@@ -40,10 +41,10 @@ pageEncoding="UTF-8"%>
     </div>
 </div>
 <span  class="content-message">
-<%
-if(request.getAttribute("message")!= null)
-    out.print(request.getAttribute("message")+"<br>");
-%>
+	<%
+	if(request.getAttribute("message")!= null)
+	    out.print(request.getAttribute("message")+"<br>");
+	%>
 </span>
 
 <div class="content-picshow">

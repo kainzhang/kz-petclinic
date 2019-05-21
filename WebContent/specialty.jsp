@@ -89,9 +89,8 @@
     </div>
 	</div>
 
-	 <script type="text/javascript" src="js/lokka.js"></script>
 	<%@ include file="footer.jsp" %>
-	<script >
+	<script type="text/javascript">
 	var id = 0;
 	function setInfo(obj){
 		id=obj.getAttribute("title");
