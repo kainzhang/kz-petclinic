@@ -6,7 +6,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>VISIT</title>
+	<title>RECORD</title>
 </head>
 <body>
 	<%@ include file="header.jsp"%>
@@ -76,7 +76,6 @@
 	</div>
 	</div>
 	</div>
-	<%@ include file="popup.jsp" %>
 	<%@ include file="footer.jsp" %>
 </body>
 </html></html>

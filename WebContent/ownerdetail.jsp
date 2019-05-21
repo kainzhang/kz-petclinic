@@ -20,7 +20,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Update Owner</title>
+	<title>Owner Detail</title>
 	<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
 	<link rel="stylesheet" href="css/jquery.Jcrop.css" type="text/css" />
 	<link rel="stylesheet" href="css/cropPic.css" type="text/css" />

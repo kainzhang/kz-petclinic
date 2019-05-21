@@ -110,7 +110,7 @@
 	<input type="checkbox" id="link1-trigger" class="check">
 	<div id="link1" class="container">
 		<div class="content">
-			<h2>UPDATE
+			<h2>Vet Detail
            		<p class="modal-exit"><label for="link1-trigger" class="modal-link">
            			<img src="img/exit-1.png">
            		</label></p>
