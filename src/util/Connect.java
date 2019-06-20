@@ -14,7 +14,7 @@ public class Connect {
             e.printStackTrace();
         }
         try {
-        	conn = DriverManager.getConnection("jdbc:sqlite:E:\\eclipse-workspace\\lokka-petclinic\\db\\data.db");
+        	conn = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\LuvWi\\git\\lokka-petclinic\\db\\data.db");
         } catch (SQLException e) {
             e.printStackTrace();
         }

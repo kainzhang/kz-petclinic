@@ -8,6 +8,7 @@
 </head>
 <body>
 	<%@ include file="header.jsp"%>
+	
 	<%
     	if(user != null)
     		response.sendRedirect("index.jsp");
@@ -16,15 +17,15 @@
         <div id="signin-content-pane">
             <h1>Please sign in.</h1>
             <form action="UserServlet?method=signIn" method="post">
-                <input type="text" placeholder="LOKKA ID" name="username" value="${param.username}"><br>
-                <span id="username-hint"></span><br>
-                <input type="password" placeholder="PASSWORD" name="password"><br>
-                <span id="password-hint"></span><br>
+                <input type="text" placeholder="LOKKA ID" name="username" value="${param.username}" required /><br>
+                <input type="password" placeholder="PASSWORD" name="password" required /><br>
                 
                 <font color="red">
 				<%
-					if(request.getAttribute("message")!= null){
+					if(request.getAttribute("message") != null){
 						out.print(request.getAttribute("message"));
+					} else {
+						out.print("<br>");
 					}
 				%>
 				</font>

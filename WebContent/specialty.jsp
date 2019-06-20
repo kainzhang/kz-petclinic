@@ -11,17 +11,14 @@
 </head>
 <body>
 	<%@ include file="header.jsp"%>
-	<%
-		if(user == null)
-			response.sendRedirect("signin.jsp");
-	%>
+
 	<div class="page">
 	<div class="content">
 	<div id="specialty-search" class="content-search">
 		<div class="content-search-pane">
 		<form action="SpecialtyServlet?method=searchSpecialties" method="post">
 			<input type="text" name="keyword" value=${param.keyword}>
-			<input type="submit" value="Search">
+			<input type="submit" value="SEARCH">
 		</form>
 		</div>
 	</div>
@@ -29,7 +26,7 @@
 		<div class="content-insert-pane">
 		<form action="SpecialtyServlet?method=insertSpecialty" method="post">
 			<input type="text" name="name">
-			<input type="submit" value="Insert">
+			<input type="submit" value="INSERT">
 		</form>
 		</div>
 	</div>

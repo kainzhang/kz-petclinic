@@ -20,19 +20,19 @@
     <div id="signup-content-pane">
 		<form action="UserServlet?method=signUp" method="post">
         	<table>
-            	<tr><td colspan="4"><input id="username" type="text" name="username" placeholder="Username" maxlength="16"></td></tr>
+            	<tr><td colspan="4"><input id="username" type="text" name="username" value="${param.username}" placeholder="Username" maxlength="16" required /></td></tr>
               	<tr><td colspan="4" id="username-hint">This will be your new LOKKA ID</td></tr>
-              	<tr><td colspan="4"><input id="password" type="password" name="password" placeholder="Password" maxlength="16"></td></tr>
-              	<tr><td colspan="4"><input id="confpass" type="password" name="confpass" placeholder="Confirm password" maxlength="16"></td></tr>
-              	<tr><td>
+              	<tr><td colspan="4"><input id="password" type="password" name="password" placeholder="Password" maxlength="16" required /></td></tr>
+              	<tr><td colspan="4"><input id="confpass" type="password" name="confpass" placeholder="Confirm password" maxlength="16" required /></td></tr>
+              	<tr><td id="signup-hint">
               	<font color="red">
                	<%
-         		if(request.getAttribute("message")!= null) {
-               		out.print(request.getAttribute("message"));
-       			} else {
+	         		if(request.getAttribute("message")!= null) {
+	               		out.print(request.getAttribute("message"));
+	       			} else {
+	       				out.print("<br>");
+	       			}
        			%>
-       				<p>&nbsp;</p>
-       			<% } %>
   				</font>
   				</td></tr>
            		<tr><td colspan="4"><input type="submit" value="Sign up" ></td></tr>

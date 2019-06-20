@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.tomcat.util.http.fileupload.FileItem;
 import org.apache.tomcat.util.http.fileupload.RequestContext;
@@ -20,8 +21,9 @@ import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 import org.apache.tomcat.util.http.fileupload.servlet.ServletRequestContext;
 
 import dao.SpecialtyDAO;
+import dao.UserDAO;
 import dao.VetDAO;
-import model.Specialty;
+import model.User;
 import model.Vet;
 
 /**
@@ -43,29 +45,27 @@ public class VetServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
-		Method method = null;
-        String methodName = request.getParameter("method");
-        try {
-            method = getClass().getDeclaredMethod(methodName, HttpServletRequest.class, HttpServletResponse.class);
-            method.invoke(this, request, response);
-        } catch (Exception e) {
-            throw new RuntimeException("Wrong Method£¡");
-        }
+		HttpSession session = request.getSession(); 
+		User user = (User) session.getAttribute("authenticated_user");
+		if(user == null) {
+			response.sendRedirect("signin.jsp");
+		} else {
+			Method method = null;
+	        String methodName = request.getParameter("method");
+	        try {
+	            method = getClass().getDeclaredMethod(methodName, HttpServletRequest.class, HttpServletResponse.class);
+	            method.invoke(this, request, response);
+	        } catch (Exception e) {
+	            throw new RuntimeException("Wrong Method£¡");
+	        }
+		}
 	}
 	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
-		Method method = null;
-        String methodName = request.getParameter("method");
-        try {
-            method = getClass().getDeclaredMethod(methodName, HttpServletRequest.class, HttpServletResponse.class);
-            method.invoke(this, request, response);
-        } catch (Exception e) {
-            throw new RuntimeException("Wrong Method£¡");
-        }
+		doGet(request, response);
 	}
 	
 	private void toInsertVet  (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -109,8 +109,8 @@ public class VetServlet extends HttpServlet {
 		System.out.println(vetid+" "+specid);
 		SpecialtyDAO dao = new SpecialtyDAO();
 		String message;
-		if(dao.deleteVetSpecialty(vetid, specid)) message = "Insert successful!";
-		else message =  "Insert failed!";
+		if(dao.deleteVetSpecialty(vetid, specid)) message = "Delete successful!";
+		else message =  "Delete failed!";
 		request.setAttribute("message", message);
 		request.getRequestDispatcher("VetServlet?method=showVet&id="+vetid).forward(request, response);
 	}

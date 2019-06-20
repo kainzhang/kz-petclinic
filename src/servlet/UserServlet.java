@@ -32,6 +32,7 @@ public class UserServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
 		Method method = null;
         String methodName = request.getParameter("method");
         try {
@@ -46,64 +47,64 @@ public class UserServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Method method = null;
-        String methodName = request.getParameter("method");
-        try {
-            method = getClass().getDeclaredMethod(methodName, HttpServletRequest.class, HttpServletResponse.class);
-            method.invoke(this, request, response);
-        } catch (Exception e) {
-            throw new RuntimeException("Wrong Method!");
-        }
+		doGet(request, response);
 	}
 	
 	private void signIn(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		request.setCharacterEncoding("utf-8");
-		String username = request.getParameter("username");
-		String password = request.getParameter("password");
 		HttpSession session = request.getSession(); 
-				
-		UserDAO dao = new UserDAO();
-		User user = dao.confirmUser(username,password);
+		User user = (User) session.getAttribute("authenticated_user");
 		if(user != null) {
-			session.setAttribute("authenticated_user", user);
 			response.sendRedirect("index.jsp");
 		} else {
-			request.setAttribute("message", "Invalid username or password, enter again!<br>");
-			request.getRequestDispatcher("signin.jsp").forward(request, response);
+			String username = request.getParameter("username");
+			String password = request.getParameter("password");
+			UserDAO dao = new UserDAO();
+			user = dao.confirmUser(username, password);
+			if(user != null) {
+				session.setAttribute("authenticated_user", user);
+				response.sendRedirect("index.jsp");
+			} else {
+				request.setAttribute("message", "Invalid username or password, enter again!<br>");
+				request.getRequestDispatcher("signin.jsp").forward(request, response);
+			}
 		}
 	}
 	
 	private void signUp(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		String username = request.getParameter("username");
-		String password = request.getParameter("password");
-		String confpass = request.getParameter("confpass");
-		User user = new User();
-		boolean flag = true;
-		UserDAO dao = new UserDAO();
-		try {
-			if (dao.userExist(username)) {
-				flag = false;
-				request.setAttribute("message", "Username is already exist!<br>");
-				request.getRequestDispatcher("signup.jsp").forward(request, response);
-			} else if(!password.equals(confpass)) {
-				flag = false;
-				request.setAttribute("message", "Two passwords don't match!<br>");
-				request.getRequestDispatcher("signup.jsp").forward(request, response);
-			} else {
-				user.setUsername(username);
-				user.setPassword(password);
-				user.setPosition(0);
-				dao.insertUser(user);
-			}
-			
-		} catch (ClassNotFoundException e) {
-			flag = false;
-			e.printStackTrace();
-		}
-		if(flag) {
-			HttpSession session = request.getSession(); 
-			session.setAttribute("authenticated_user", user);
+		HttpSession session = request.getSession(); 
+		User user = (User) session.getAttribute("authenticated_user");
+		if(user != null) {
 			response.sendRedirect("index.jsp");
+		} else {
+			String username = request.getParameter("username");
+			String password = request.getParameter("password");
+			String confpass = request.getParameter("confpass");
+			boolean flag = true;
+			UserDAO dao = new UserDAO();
+			User u = new User();
+			try {
+				if (dao.userExist(username)) {
+					flag = false;
+					request.setAttribute("message", "Username is already exist!<br>");
+					request.getRequestDispatcher("signup.jsp").forward(request, response);
+				} else if(!password.equals(confpass)) {
+					flag = false;
+					request.setAttribute("message", "Two passwords don't match!<br>");
+					request.getRequestDispatcher("signup.jsp").forward(request, response);
+				} else {
+					u.setUsername(username);
+					u.setPassword(password);
+					u.setPosition(0);
+					dao.insertUser(u);
+				}
+			} catch (ClassNotFoundException e) {
+				flag = false;
+				e.printStackTrace();
+			}
+			if(flag) {
+				session.setAttribute("authenticated_user", u);
+				response.sendRedirect("index.jsp");
+			}
 		}
 	}
 

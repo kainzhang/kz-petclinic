@@ -9,12 +9,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import dao.SpecialtyDAO;
 import model.Specialty;
+import model.User;
 
 /**
- * @Servlet implementation class VetServlet
+ * @Servlet implementation class SpecialtyServlet
  */
 @WebServlet("/SpecialtyServlet")
 public class SpecialtyServlet extends HttpServlet {
@@ -32,29 +34,27 @@ public class SpecialtyServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
-		Method method = null;
-        String methodName = request.getParameter("method");
-        try {
-            method = getClass().getDeclaredMethod(methodName, HttpServletRequest.class, HttpServletResponse.class);
-            method.invoke(this, request, response);
-        } catch (Exception e) {
-            throw new RuntimeException("Wrong Method£¡");
-        }
+		HttpSession session = request.getSession(); 
+		User user = (User) session.getAttribute("authenticated_user");
+		if(user == null) {
+			response.sendRedirect("signin.jsp");
+		} else {
+			Method method = null;
+	        String methodName = request.getParameter("method");
+	        try {
+	            method = getClass().getDeclaredMethod(methodName, HttpServletRequest.class, HttpServletResponse.class);
+	            method.invoke(this, request, response);
+	        } catch (Exception e) {
+	            throw new RuntimeException("Wrong Method£¡");
+	        }
+		}
 	}
 	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
-		Method method = null;
-        String methodName = request.getParameter("method");
-        try {
-            method = getClass().getDeclaredMethod(methodName, HttpServletRequest.class, HttpServletResponse.class);
-            method.invoke(this, request, response);
-        } catch (Exception e) {
-            throw new RuntimeException("Wrong Method£¡");
-        }
+		doGet(request, response);
 	}
 	
 	private void insertSpecialty (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

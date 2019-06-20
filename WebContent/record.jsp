@@ -16,7 +16,7 @@
 		<div class="content-search-pane">
 			<form action="RecordServlet?method=searchRecord" method="post">
 				<input type="text" name="keyword" value=${param.keyword}>
-				<input type="submit" value="查询">
+				<input type="submit" value="SEARCH">
 			</form>
 		</div>
 	</div>
@@ -38,7 +38,7 @@
 			</select>
 			<label>Descr:</label>
 			<input type="text" name="descr">
-			<input type="submit" value="添加">
+			<input type="submit" value="INSERT">
 		</form>
 		</div>
 	</div>
@@ -69,7 +69,7 @@
 					<td><a href="VetServlet?method=showVet&id=${item.vetid}">${item.vetname}</a></td>
 					<td>${item.date }</td>
 					<td>${item.descr }</td>
-					<td><a href="RecordServlet?method=deleteRecord&id=${item.id}">删除</a></td>
+					<td><a href="RecordServlet?method=deleteRecord&id=${item.id}">Delete</a></td>
 				</tr>
 			</c:forEach>
 		</table>

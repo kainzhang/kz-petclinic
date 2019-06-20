@@ -3,7 +3,6 @@ package servlet;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.tomcat.util.http.fileupload.FileItem;
-import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.apache.tomcat.util.http.fileupload.RequestContext;
 import org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory;
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
@@ -25,12 +23,11 @@ import org.apache.tomcat.util.http.fileupload.servlet.ServletRequestContext;
 import dao.OwnerDAO;
 import dao.PetDAO;
 import dao.SpeciesDAO;
-import dao.UserDAO;
 import model.Pet;
 import model.User;
 
 /**
- * Servlet implementation class PatServlet
+ * Servlet implementation class PetServlet
  */
 @WebServlet("/PetServlet")
 public class PetServlet extends HttpServlet {
@@ -48,29 +45,27 @@ public class PetServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
-		Method method = null;
-        String methodName = request.getParameter("method");
-        try {
-            method = getClass().getDeclaredMethod(methodName, HttpServletRequest.class, HttpServletResponse.class);
-            method.invoke(this, request, response);
-        } catch (Exception e) {
-            throw new RuntimeException("Wrong Method£¡");
-        }
+		HttpSession session = request.getSession(); 
+		User user = (User) session.getAttribute("authenticated_user");
+		if(user == null) {
+			response.sendRedirect("signin.jsp");
+		} else {
+			Method method = null;
+	        String methodName = request.getParameter("method");
+	        try {
+	            method = getClass().getDeclaredMethod(methodName, HttpServletRequest.class, HttpServletResponse.class);
+	            method.invoke(this, request, response);
+	        } catch (Exception e) {
+	            throw new RuntimeException("Wrong Method£¡");
+	        }
+		}
 	}
 	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
-		Method method = null;
-        String methodName = request.getParameter("method");
-        try {
-            method = getClass().getDeclaredMethod(methodName, HttpServletRequest.class, HttpServletResponse.class);
-            method.invoke(this, request, response);
-        } catch (Exception e) {
-            throw new RuntimeException("Wrong Method£¡");
-        }
+        doGet(request, response);
 	}
 	
 	private void toInsertPet  (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
