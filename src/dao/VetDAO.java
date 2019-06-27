@@ -76,9 +76,9 @@ public class VetDAO {
 		return list;	
 	}
 	
-	public List<Vet> searchVets(String keyword, Integer start, Integer end) {
+	public List<Vet> searchVets(String keyword, Integer start, Integer size) {
 		String stmt = " SELECT * FROM vet WHERE name LIKE '%"+keyword+"%' " +
-					  " ORDER BY ID LIMIT "+start+", "+end+" ;";
+					  " ORDER BY ID LIMIT "+start+", "+size+" ;";
 		return getList(stmt);
 	}
 	
@@ -111,9 +111,10 @@ public class VetDAO {
 		return null;
 	}
 	
-	public List<Vet> getVets(Integer start, Integer end) {
+	public List<Vet> getVets(Integer start, Integer size) {
 		String stmt = " SELECT * FROM vet " +
-					  " ORDER BY id LIMIT "+start+", "+end+" ;";
+					  " ORDER BY id LIMIT "+start+", "+size+" ;";
+		System.out.println("print:" +start +" "+ size);
 		return getList(stmt);
 	}
 	
@@ -127,13 +128,14 @@ public class VetDAO {
 		}
 		return 0;
 	}
+	
 	public List<Vet> getAllVets(){
 		String stmt="select *  from vet;";
 		return getList(stmt);
 	}
 	
-	public List<Vet> getVetsBySpecid(int Specid, Integer start, Integer end){
-		String stmt="select * from vet where id in (select vetid from vet_spec where specid="+Specid+") ORDER BY ID LIMIT "+start+", "+end+" ;";
+	public List<Vet> getVetsBySpecid(int Specid, Integer start, Integer size){
+		String stmt="select * from vet where id in (select vetid from vet_spec where specid="+Specid+") ORDER BY ID LIMIT "+start+", "+size+" ;";
 		return getList(stmt);
 	}
 	

@@ -43,7 +43,9 @@ public class VetServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, 
+			HttpServletResponse response) 
+			throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		HttpSession session = request.getSession(); 
 		User user = (User) session.getAttribute("authenticated_user");
@@ -53,7 +55,11 @@ public class VetServlet extends HttpServlet {
 			Method method = null;
 	        String methodName = request.getParameter("method");
 	        try {
-	            method = getClass().getDeclaredMethod(methodName, HttpServletRequest.class, HttpServletResponse.class);
+	            method = getClass().getDeclaredMethod(
+	            		methodName, 
+	            		HttpServletRequest.class, 
+	            		HttpServletResponse.class
+	            		);
 	            method.invoke(this, request, response);
 	        } catch (Exception e) {
 	            throw new RuntimeException("Wrong Method！");
@@ -68,7 +74,7 @@ public class VetServlet extends HttpServlet {
 		doGet(request, response);
 	}
 	
-	private void toInsertVet  (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void toInsertVet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		SpecialtyDAO sdao = new SpecialtyDAO();
 		request.setAttribute("splist2", sdao.getSpecialties());
 		
@@ -158,8 +164,8 @@ public class VetServlet extends HttpServlet {
 		VetDAO dao = new VetDAO();
 		
 		Integer pageIndex = Integer.parseInt(request.getParameter("pageIndex"));
-		Integer maxPageIndex = (dao.getAmount()+17)/18;
-		List<Vet> list = dao.getVets((pageIndex-1)*18, pageIndex*18);
+		Integer maxPageIndex = (dao.getAmount()+11)/12;
+		List<Vet> list = dao.getVets((pageIndex-1)*12, 12);
 		request.setAttribute("maxPageIndex", maxPageIndex);
 		request.setAttribute("method", "showVets");
 		request.setAttribute("list", list);
@@ -170,8 +176,8 @@ public class VetServlet extends HttpServlet {
 		VetDAO dao = new VetDAO();
 		Integer pageIndex = Integer.parseInt(request.getParameter("pageIndex"));
 		String keyword = request.getParameter("keyword");
-		Integer maxPageIndex = (dao.getResultAmount(keyword)+17)/18;
-		List<Vet> list = dao.searchVets(keyword, (pageIndex-1)*18, pageIndex*18);
+		Integer maxPageIndex = (dao.getResultAmount(keyword)+11)/12;
+		List<Vet> list = dao.searchVets(keyword, (pageIndex-1)*12, 12);
 		request.setAttribute("maxPageIndex", maxPageIndex);
 		request.setAttribute("method", "searchVets");
 		request.setAttribute("list", list);
@@ -183,36 +189,31 @@ public class VetServlet extends HttpServlet {
 		Integer pageIndex =1;
 		Integer specId = Integer.parseInt(request.getParameter("keyword"));
 		String nam=request.getParameter("name");
-		Integer maxPageIndex = (dao.getResultAmountBySpecid(specId)+17)/18;
-		List<Vet> list = dao.getVetsBySpecid(specId, (pageIndex-1)*18, pageIndex*18);
+		Integer maxPageIndex = (dao.getResultAmountBySpecid(specId)+11)/12;
+		List<Vet> list = dao.getVetsBySpecid(specId, (pageIndex-1)*12, 12);
 		request.setAttribute("maxPageIndex", maxPageIndex);
 		request.setAttribute("method", "searchVets");
 		request.setAttribute("list", list);
 		request.getRequestDispatcher("vet.jsp?keyword="+nam+"&pageIndex="+pageIndex).forward(request, response);
 	}
 
-	
 	private void updatePic (HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String fileName="";
-		Map<String, String> mp =new HashMap<String, String>();
-		request.setCharacterEncoding("utf-8");
+		Map<String, String> mp = new HashMap<String, String>();
         DiskFileItemFactory factroy = new DiskFileItemFactory();
         ServletFileUpload upload = new ServletFileUpload(factroy);
         boolean isF = ServletFileUpload.isMultipartContent(request);
         if (isF) {
-            //使用解析器解析上传的表单数据，每个FileItem对应一个表单项
-        	RequestContext context=new ServletRequestContext(request);
+        	RequestContext context = new ServletRequestContext(request);
             List<FileItem> fileItemList = upload.parseRequest(context);
             for (FileItem fileItem : fileItemList) {
                 if (!fileItem.isFormField()) {
-                    //不是普通的表单项，即上传的是文件
                     fileName = fileItem.getName();
                     String root=request.getServletContext().getRealPath("/media/");
-                    fileName =root+fileName;
+                    fileName =root + fileName;
                     File file = new File(fileName);
                     fileItem.write(file);
                 } else {
-                    //获取表单中的非文件值
                 	mp.put(fileItem.getFieldName(), fileItem.getString("UTF-8"));
                     System.out.println(fileItem.getFieldName());
                     System.out.println(fileItem.getString("UTF-8"));

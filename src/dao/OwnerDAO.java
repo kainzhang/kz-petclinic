@@ -83,17 +83,17 @@ public class OwnerDAO {
 		return list;	
 	}
 	
-    public List<Owner> searchOwners(String keyword, Integer start, Integer end) {
+    public List<Owner> searchOwners(String keyword, Integer start, Integer size) {
         String stmt = " SELECT * FROM owner WHERE name LIKE '%"+keyword+"%' "+
-                    " ORDER BY ID LIMIT "+start+", "+end+" ;";
+                    " ORDER BY ID LIMIT "+start+", "+size+" ;";
 		return getList(stmt);
 	}
     
 
 	
-	public List<Owner> getOwners(Integer start, Integer end) {
+	public List<Owner> getOwners(Integer start, Integer size) {
 		String stmt =" SELECT * FROM owner "+
-				" ORDER BY id LIMIT "+start+", "+end+" ;";
+				" ORDER BY id LIMIT "+start+", "+size+" ;";
 		return getList(stmt);
 	}
 	public List<Owner> getAllOwners() {

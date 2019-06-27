@@ -139,7 +139,7 @@ public class OwnerServlet extends HttpServlet {
 		OwnerDAO dao = new OwnerDAO();
 		Integer pageIndex = Integer.parseInt(request.getParameter("pageIndex"));
 		Integer maxPageIndex = (dao.getAmount()+17)/18;
-		List<Owner> list = dao.getOwners((pageIndex-1)*18, pageIndex*18);
+		List<Owner> list = dao.getOwners((pageIndex-1)*18, 18);
 		System.out.println(pageIndex+" "+maxPageIndex);
 		request.setAttribute("maxPageIndex", maxPageIndex);
 		request.setAttribute("method", "showOwners");
@@ -152,7 +152,7 @@ public class OwnerServlet extends HttpServlet {
 		String keyword = request.getParameter("keyword");
 		Integer pageIndex = Integer.parseInt(request.getParameter("pageIndex"));
 		Integer maxPageIndex = (dao.getResultAmount(keyword)+17)/18;
-		List<Owner> list = dao.searchOwners(keyword,(pageIndex-1)*18, pageIndex*18);
+		List<Owner> list = dao.searchOwners(keyword,(pageIndex-1)*18, 18);
 		request.setAttribute("maxPageIndex", maxPageIndex);
 		request.setAttribute("method", "searchOwners");
 		request.setAttribute("list", list);

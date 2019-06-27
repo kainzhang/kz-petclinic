@@ -156,7 +156,7 @@ public class PetServlet extends HttpServlet {
 		PetDAO dao = new PetDAO();
 		Integer pageIndex = Integer.parseInt(request.getParameter("pageIndex"));
 		Integer maxPageIndex = (dao.getAmount()+17)/18;
-		List<Pet> list = dao.getPets((pageIndex-1)*18, pageIndex*18);
+		List<Pet> list = dao.getPets((pageIndex-1)*18, 18);
 		request.setAttribute("maxPageIndex", maxPageIndex);
 		request.setAttribute("method", "showPets");
 		request.setAttribute("list", list);
@@ -168,7 +168,7 @@ public class PetServlet extends HttpServlet {
 		Integer pageIndex = Integer.parseInt(request.getParameter("pageIndex"));
 		String keyword = request.getParameter("keyword");
 		Integer maxPageIndex = (dao.getResultAmount(keyword)+17)/18;
-		List<Pet> list = dao.searchPets(keyword, (pageIndex-1)*18, pageIndex*18);
+		List<Pet> list = dao.searchPets(keyword, (pageIndex-1)*18, 18);
 		request.setAttribute("maxPageIndex", maxPageIndex);
 		request.setAttribute("method", "searchPets");
 		request.setAttribute("list", list);
@@ -183,12 +183,10 @@ public class PetServlet extends HttpServlet {
         ServletFileUpload upload = new ServletFileUpload(factroy);
         boolean isF = ServletFileUpload.isMultipartContent(request);
         if (isF) {
-            //使用解析器解析上传的表单数据，每个FileItem对应一个表单项
         	RequestContext context=new ServletRequestContext(request);
             List<FileItem> fileItemList = upload.parseRequest(context);
             for (FileItem fileItem : fileItemList) {
                 if (!fileItem.isFormField()) {
-                    //不是普通的表单项，即上传的是文件
                     fileName = fileItem.getName();
                     String root=request.getServletContext().getRealPath("/media/");
                     fileName =root+fileName;
@@ -197,7 +195,6 @@ public class PetServlet extends HttpServlet {
                     fileItem.write(file);
                     System.out.println("  导入成功");
                 } else {
-                    //获取表单中的非文件值
                 	mp.put(fileItem.getFieldName(), fileItem.getString("UTF-8"));
                     System.out.println(fileItem.getFieldName());
                     System.out.println(fileItem.getString("UTF-8"));

@@ -103,20 +103,20 @@ public class PetDAO {
 	}
 	
 	
-	public List<Pet> searchPets(String keyword, Integer start, Integer end) {
+	public List<Pet> searchPets(String keyword, Integer start, Integer size) {
 		String stmt = "select p.ID as id,p.NAME as name,p.BDAY as bday,o.ID as ownerid,o.name as owner,s.id as speciesid,s.name as species,p.PIC as pic" + 
 				" from (pet as p inner join owner as o on p.OWNERID=o.Id)" + 
 				" inner join species as s on p.SPECIESID=s.id" + 
 				" where p.name like '%"+keyword+"%' OR s.name LIKE '%"+keyword+"%' " +
-				" ORDER BY p.ID LIMIT "+start+", "+end+" ;";
+				" ORDER BY p.ID LIMIT "+start+", "+size+" ;";
 		return getList(stmt);
 	}
 	
-	public List<Pet> getPets(Integer start, Integer end) {
+	public List<Pet> getPets(Integer start, Integer size) {
 		String stmt = " select p.ID as id,p.NAME as name,p.BDAY as bday,o.ID as ownerid,o.name as owner,s.id as speciesid,s.name as species,p.PIC as pic" + 
 				" from (pet as p inner join owner as o on p.OWNERID=o.Id)" + 
 				" inner join species as s on p.SPECIESID=s.id " +
-				" ORDER BY p.ID LIMIT "+start+", "+end+" ;";
+				" ORDER BY p.ID LIMIT "+start+", "+size+" ;";
 		return getList(stmt);
 	}
 	
